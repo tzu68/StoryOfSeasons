@@ -113,6 +113,7 @@ h2 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
+  margin-top: 1rem;
 }
 
 .resident-card {
@@ -127,6 +128,40 @@ h2 {
 .resident-card h3 {
   margin: 0.5rem 0;
   color: #6bbf59;
+}
+
+.resident-card img {
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+/* 根據居民喜歡的顏色設置卡片背景色，透明度50% */
+.resident-card[data-color="Blue"] {
+  background-color: rgba(172, 214, 255, 0.5);
+}
+
+.resident-card[data-color="Red"] {
+  background-color: rgba(255, 204, 188, 0.5);
+}
+
+.resident-card[data-color="Yellow"] {
+  background-color: rgba(255, 255, 147, 0.5);
+}
+
+/* 根據居民喜歡的顏色裝飾卡片 */
+.resident-card[data-color="Blue"] {
+  border: 2px solid #acd6ff;
+  box-shadow: 0 4px 8px rgba(172, 214, 255, 0.5);
+}
+
+.resident-card[data-color="Red"] {
+  border: 2px solid #ffccbc;
+  box-shadow: 0 4px 8px rgba(255, 204, 188, 0.5);
+}
+
+.resident-card[data-color="Yellow"] {
+  border: 2px solid #ffff93;
+  box-shadow: 0 4px 8px rgba(255, 255, 147, 0.5);
 }
 
 /* 動物外觀 */

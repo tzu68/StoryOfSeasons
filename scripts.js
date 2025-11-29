@@ -187,6 +187,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     calendarContainer.appendChild(calendarGrid);
   }
 
+  // 結婚候補資訊區塊功能
+  async function loadMarriedResidents() {
+    const response = await fetch("data/people.txt");
+    const residents = await response.json();
+
+    const marriedResidents = residents.filter((resident) => resident.married);
+
+    const residentCardsContainer = document.getElementById("resident-cards");
+    residentCardsContainer.innerHTML = ""; // 清空內容
+
+    marriedResidents.forEach((resident) => {
+      const card = document.createElement("div");
+      card.className = "resident-card";
+      card.setAttribute("data-color", resident.color); // 設置顏色屬性
+
+      card.innerHTML = `
+        <img src="images/people/${resident.picture}" alt="${
+        resident.name
+      }" style="width:100px;height:100px;border-radius:50%;display:block;margin:0 auto;"/>
+        <h3>${resident.name}</h3>
+        <p>生日：${resident.birthday.season} ${resident.birthday.day}日</p>
+        <p>最喜歡：${resident.favorite}</p>
+        <p>喜歡：${resident.likes.join(", ")}</p>
+        <p>討厭：${resident.dislikes.join(", ")}</p>
+      `;
+
+      residentCardsContainer.appendChild(card);
+    });
+  }
+
   // 切換季節功能
   let currentYear = 1; // 第一年的開始
   let currentSeasonIndex = 0; // 春季開始
@@ -211,6 +241,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 加載居民資料並初始化行事曆
   await loadResidents();
   generateCalendar(currentYear, currentSeasonIndex);
+
+  // 初始化結婚候補資訊
+  loadMarriedResidents();
 
   // 修正左右按鈕功能
   const gallery = document.querySelector(".animal-gallery");
