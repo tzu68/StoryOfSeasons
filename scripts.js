@@ -60,20 +60,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     residents.forEach((resident) => {
       const seasonIndex = seasons.indexOf(resident.birthday.season);
       if (seasonIndex !== -1) {
-        const formattedDate = `1-${String(seasonIndex + 1).padStart(
-          2,
-          "0"
-        )}-${String(resident.birthday.day).padStart(2, "0")}`;
-        events.push({
-          date: formattedDate,
-          name: `${resident.name} 生日`,
-          type: "birthday",
-          picture: resident.picture,
-          color: resident.color,
-          favorite: resident.favorite,
-          likes: resident.likes,
-          dislikes: resident.dislikes,
-        });
+        for (let year = 1; year <= 5; year++) {
+          const formattedDate = `${year}-${String(seasonIndex + 1).padStart(
+            2,
+            "0"
+          )}-${String(resident.birthday.day).padStart(2, "0")}`;
+          events.push({
+            date: formattedDate,
+            name: `${resident.name} 生日`,
+            type: "birthday",
+            picture: resident.picture,
+            color: resident.color,
+            favorite: resident.favorite,
+            likes: resident.likes,
+            dislikes: resident.dislikes,
+          });
+        }
       }
     });
   }
@@ -217,10 +219,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // 切換季節功能
-  let currentYear = 1; // 第一年的開始
-  let currentSeasonIndex = 0; // 春季開始
+  // 儲存與讀取行事曆與礦物分布的快取值
+  function saveToLocalStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
 
+  function getFromLocalStorage(key, defaultValue) {
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : defaultValue;
+  }
+
+  // 初始化行事曆與礦物分布的快取值
+  let currentYear = getFromLocalStorage("calendarYear", 1); // 預設第1年
+  let currentSeasonIndex = getFromLocalStorage("calendarSeason", 0); // 預設春季
+  let currentMineralSeason = getFromLocalStorage("mineralSeason", "spring"); // 預設春季
+
+  // 更新行事曆選擇器的值
   const yearSelectElement = document
     .getElementById("controls")
     .querySelector("select");
@@ -228,13 +242,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     .getElementById("controls")
     .querySelectorAll("select")[1];
 
+  yearSelectElement.value = currentYear;
+  seasonSelectElement.value = currentSeasonIndex;
+
+  // 切換年度與季節時儲存快取
   yearSelectElement.addEventListener("change", () => {
     currentYear = parseInt(yearSelectElement.value, 10);
+    saveToLocalStorage("calendarYear", currentYear);
     generateCalendar(currentYear, currentSeasonIndex);
   });
 
   seasonSelectElement.addEventListener("change", () => {
     currentSeasonIndex = parseInt(seasonSelectElement.value, 10);
+    saveToLocalStorage("calendarSeason", currentSeasonIndex);
     generateCalendar(currentYear, currentSeasonIndex);
   });
 
@@ -258,13 +278,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     gallery.scrollBy({ left: gallery.offsetWidth, behavior: "smooth" });
   });
 
-  // 礦物分布區塊功能
+  // 礦物分布區塊快取
   const tabs = document.querySelectorAll(".tabs button");
   const mineralGallery = document.getElementById("mineral-gallery");
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       const season = tab.getAttribute("data-season");
+      saveToLocalStorage("mineralSeason", season);
 
       // 更新礦物圖片
       mineralGallery.innerHTML = `
@@ -273,4 +294,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       `;
     });
   });
+
+  // 初始化礦物分布的預設值
+  const activeTab = document.querySelector(
+    `.tabs button[data-season="${currentMineralSeason}"]`
+  );
+  if (activeTab) {
+    activeTab.click();
+  }
 });
