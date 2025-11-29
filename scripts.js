@@ -1,5 +1,45 @@
 document.addEventListener("DOMContentLoaded", async () => {
+  const wrapper = document.createElement("div");
+  wrapper.id = "calendar-info-wrapper";
+
   const calendarContainer = document.getElementById("interactive-calendar");
+  const parent = calendarContainer.parentElement;
+
+  // 控制選單容器
+  const controls = document.createElement("div");
+  controls.id = "controls";
+
+  const yearSelect = document.createElement("select");
+  for (let year = 1; year <= 5; year++) {
+    const option = document.createElement("option");
+    option.value = year;
+    option.textContent = `第 ${year} 年`;
+    yearSelect.appendChild(option);
+  }
+
+  const seasonSelect = document.createElement("select");
+  ["春", "夏", "秋", "冬"].forEach((season, index) => {
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = season;
+    seasonSelect.appendChild(option);
+  });
+
+  controls.appendChild(yearSelect);
+  controls.appendChild(seasonSelect);
+
+  // 先附加控制選單
+  parent.appendChild(controls);
+
+  // 包裹行事曆與資訊區塊
+  wrapper.appendChild(calendarContainer);
+
+  const infoContainer = document.createElement("div");
+  infoContainer.id = "info-container";
+  infoContainer.innerHTML = "<p>請點擊行事曆中的生日以查看居民資訊</p>";
+  wrapper.appendChild(infoContainer);
+
+  parent.appendChild(wrapper);
 
   // 節日與居民生日資料
   const events = [
@@ -30,6 +70,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           type: "birthday",
           picture: resident.picture,
           color: resident.color,
+          favorite: resident.favorite,
+          likes: resident.likes,
+          dislikes: resident.dislikes,
         });
       }
     });
@@ -105,6 +148,35 @@ document.addEventListener("DOMContentLoaded", async () => {
           eventImage.style.height = "50px";
           eventImage.style.borderRadius = "50%";
           dateCell.appendChild(eventImage);
+
+          // 點擊事件顯示居民資訊
+          dateCell.addEventListener("click", () => {
+            infoContainer.innerHTML = `
+                            <p>${event.name}</p>
+                            <img src="images/people/${event.picture}" alt="${
+              event.name
+            }" style="width:100px;height:100px;border-radius:50%;display:block;margin:0 auto;"/>
+                            <hr/>
+                            <div>
+                                <p>最喜歡</p>
+                                <p>${event.favorite}</p>
+                            </div>
+                            <div>
+                                <p>喜歡</p>
+                                <p>${event.likes.join(", ")}</p>
+                            </div>
+                            <hr/>
+                            <div>
+                                <p>討厭</p>
+                                <p>${event.dislikes.join(", ")}</p>
+                            </div>
+                            <hr/>
+                            <div>
+                                <p>喜歡的顏色</p>
+                                <p>${event.color}</p>
+                            </div>
+                        `;
+          });
         }
         dateCell.title = event.name; // 顯示提示文字
       }
@@ -119,44 +191,37 @@ document.addEventListener("DOMContentLoaded", async () => {
   let currentYear = 1; // 第一年的開始
   let currentSeasonIndex = 0; // 春季開始
 
-  const yearSelect = document.createElement("select");
-  for (let year = 1; year <= 5; year++) {
-    const option = document.createElement("option");
-    option.value = year;
-    option.textContent = `第 ${year} 年`;
-    if (year === currentYear) option.selected = true;
-    yearSelect.appendChild(option);
-  }
+  const yearSelectElement = document
+    .getElementById("controls")
+    .querySelector("select");
+  const seasonSelectElement = document
+    .getElementById("controls")
+    .querySelectorAll("select")[1];
 
-  const seasonSelect = document.createElement("select");
-  seasons.forEach((season, index) => {
-    const option = document.createElement("option");
-    option.value = index;
-    option.textContent = season;
-    if (index === currentSeasonIndex) option.selected = true;
-    seasonSelect.appendChild(option);
-  });
-
-  yearSelect.addEventListener("change", () => {
-    currentYear = parseInt(yearSelect.value, 10);
+  yearSelectElement.addEventListener("change", () => {
+    currentYear = parseInt(yearSelectElement.value, 10);
     generateCalendar(currentYear, currentSeasonIndex);
   });
 
-  seasonSelect.addEventListener("change", () => {
-    currentSeasonIndex = parseInt(seasonSelect.value, 10);
+  seasonSelectElement.addEventListener("change", () => {
+    currentSeasonIndex = parseInt(seasonSelectElement.value, 10);
     generateCalendar(currentYear, currentSeasonIndex);
   });
-
-  const controls = document.createElement("div");
-  controls.style.display = "flex";
-  controls.style.justifyContent = "space-between";
-  controls.style.marginBottom = "1rem";
-  controls.appendChild(yearSelect);
-  controls.appendChild(seasonSelect);
-
-  calendarContainer.before(controls);
 
   // 加載居民資料並初始化行事曆
   await loadResidents();
   generateCalendar(currentYear, currentSeasonIndex);
+
+  // 修正左右按鈕功能
+  const gallery = document.querySelector('.animal-gallery');
+  const leftBtn = document.querySelector('.scroll-btn.left');
+  const rightBtn = document.querySelector('.scroll-btn.right');
+
+  leftBtn.addEventListener('click', () => {
+    gallery.scrollBy({ left: -gallery.offsetWidth, behavior: 'smooth' });
+  });
+
+  rightBtn.addEventListener('click', () => {
+    gallery.scrollBy({ left: gallery.offsetWidth, behavior: 'smooth' });
+  });
 });

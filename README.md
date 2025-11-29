@@ -23,10 +23,12 @@
    卡片內容包括：姓名、生日、喜好/討厭的物品。
    使用 CSS 美化卡片樣式。
 4. 動物外觀
-   資料來源：animals
+   圖片來源：images/animals/
    功能：
    圖片展示，無需額外文字。
    使用 CSS Grid 或 Flexbox 排列圖片。
+   支援左右滑動瀏覽圖片。
+
 5. 礦物分布
    資料來源：
    春季：images/stone/spring*\*
