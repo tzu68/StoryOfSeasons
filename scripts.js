@@ -213,15 +213,31 @@ document.addEventListener("DOMContentLoaded", async () => {
   generateCalendar(currentYear, currentSeasonIndex);
 
   // 修正左右按鈕功能
-  const gallery = document.querySelector('.animal-gallery');
-  const leftBtn = document.querySelector('.scroll-btn.left');
-  const rightBtn = document.querySelector('.scroll-btn.right');
+  const gallery = document.querySelector(".animal-gallery");
+  const leftBtn = document.querySelector(".scroll-btn.left");
+  const rightBtn = document.querySelector(".scroll-btn.right");
 
-  leftBtn.addEventListener('click', () => {
-    gallery.scrollBy({ left: -gallery.offsetWidth, behavior: 'smooth' });
+  leftBtn.addEventListener("click", () => {
+    gallery.scrollBy({ left: -gallery.offsetWidth, behavior: "smooth" });
   });
 
-  rightBtn.addEventListener('click', () => {
-    gallery.scrollBy({ left: gallery.offsetWidth, behavior: 'smooth' });
+  rightBtn.addEventListener("click", () => {
+    gallery.scrollBy({ left: gallery.offsetWidth, behavior: "smooth" });
+  });
+
+  // 礦物分布區塊功能
+  const tabs = document.querySelectorAll(".tabs button");
+  const mineralGallery = document.getElementById("mineral-gallery");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const season = tab.getAttribute("data-season");
+
+      // 更新礦物圖片
+      mineralGallery.innerHTML = `
+        <img src="images/stone/${season}_mountain.png" alt="${season} Mountain">
+        <img src="images/stone/${season}_town.png" alt="${season} Town">
+      `;
+    });
   });
 });
