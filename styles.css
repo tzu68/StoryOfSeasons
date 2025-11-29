@@ -65,17 +65,22 @@ h2 {
 
 /* 行事曆 */
 #interactive-calendar {
+  flex-grow: 1;
+  overflow-x: auto; /* 啟用水平滾動 */
   display: grid;
   gap: 0.5rem;
-  margin-top: 1rem;
 }
 
-#interactive-calendar div {
-  padding: 1rem;
-  background: #eaf5e9;
-  border: 1px solid #cde5cd;
-  text-align: center;
-  border-radius: 5px;
+/* 響應式設計：針對小螢幕 */
+@media (max-width: 768px) {
+  #interactive-calendar {
+    grid-template-columns: repeat(3, 1fr); /* 每列3天 */
+  }
+
+  #interactive-calendar div {
+    min-width: 80px; /* 縮小單元格寬度 */
+    font-size: 0.8rem; /* 縮小字體大小 */
+  }
 }
 
 /* 行事曆與資訊區塊的佈局 */
@@ -90,11 +95,11 @@ h2 {
   }
 
   #interactive-calendar {
-    width: 50%;
+    width: 70%;
   }
 
   #info-container {
-    width: 50%;
+    width: 30%;
   }
 }
 
