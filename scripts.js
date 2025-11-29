@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const calendarContainer = document.getElementById("interactive-calendar");
 
   // 節日與居民生日資料
@@ -12,8 +12,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const seasons = ["春", "夏", "秋", "冬"];
   const weekdays = ["日", "一", "二", "三", "四", "五", "六"];
 
+  // 讀取居民資料
+  async function loadResidents() {
+    const response = await fetch("data/people.txt");
+    const residents = await response.json();
+
+    residents.forEach((resident) => {
+      const seasonIndex = seasons.indexOf(resident.birthday.season);
+      if (seasonIndex !== -1) {
+        const formattedDate = `1-${String(seasonIndex + 1).padStart(
+          2,
+          "0"
+        )}-${String(resident.birthday.day).padStart(2, "0")}`;
+        events.push({
+          date: formattedDate,
+          name: `${resident.name} 生日`,
+          type: "birthday",
+          picture: resident.picture,
+          color: resident.color,
+        });
+      }
+    });
+  }
+
   // 初始化行事曆
-  function generateCalendar(year, seasonIndex) {
+  async function generateCalendar(year, seasonIndex) {
     calendarContainer.innerHTML = ""; // 清空行事曆
 
     const daysInSeason = 30; // 每季固定30天
@@ -63,7 +86,25 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.type === "festival") {
           dateCell.style.backgroundColor = "#ffeb3b"; // 節日顏色
         } else if (event.type === "birthday") {
-          dateCell.style.backgroundColor = "#ffccbc"; // 生日顏色
+          // 根據居民喜歡的顏色設置背景色
+          if (event.color === "Yellow") {
+            dateCell.style.backgroundColor = "#FFFF93";
+          } else if (event.color === "Blue") {
+            dateCell.style.backgroundColor = "#ACD6FF";
+          } else if (event.color === "Red") {
+            dateCell.style.backgroundColor = "#ffccbc"; // 保持紅色
+          }
+
+          // 顯示居民圖片
+          const eventImage = document.createElement("img");
+          eventImage.src = `images/people/${event.picture}`;
+          eventImage.alt = event.name;
+          eventImage.style.display = "block";
+          eventImage.style.margin = "0.5rem auto 0";
+          eventImage.style.width = "50px";
+          eventImage.style.height = "50px";
+          eventImage.style.borderRadius = "50%";
+          dateCell.appendChild(eventImage);
         }
         dateCell.title = event.name; // 顯示提示文字
       }
@@ -115,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   calendarContainer.before(controls);
 
-  // 初始化顯示當前季節行事曆
+  // 加載居民資料並初始化行事曆
+  await loadResidents();
   generateCalendar(currentYear, currentSeasonIndex);
 });
