@@ -278,28 +278,52 @@ document.addEventListener("DOMContentLoaded", async () => {
     gallery.scrollBy({ left: gallery.offsetWidth, behavior: "smooth" });
   });
 
-  // 礦物分布區塊快取
-  const tabs = document.querySelectorAll(".tabs button");
-  const mineralGallery = document.getElementById("mineral-gallery");
+  // 礦物分布區塊密碼驗證功能
+  function checkMineralAccess() {
+    const storedPassword = localStorage.getItem("mineralAccess");
 
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const season = tab.getAttribute("data-season");
-      saveToLocalStorage("mineralSeason", season);
+    if (storedPassword === "tzu") {
+      return true; // 已經驗證過密碼
+    }
 
-      // 更新礦物圖片
-      mineralGallery.innerHTML = `
+    const userPassword = prompt("請輸入密碼以查看礦物分布：");
+
+    if (userPassword === "tzu") {
+      localStorage.setItem("mineralAccess", "tzu");
+      return true;
+    } else {
+      alert("密碼錯誤，無法查看礦物分布。");
+      return false;
+    }
+  }
+
+  // 初始化礦物分布區塊
+  if (checkMineralAccess()) {
+    const tabs = document.querySelectorAll(".tabs button");
+    const mineralGallery = document.getElementById("mineral-gallery");
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const season = tab.getAttribute("data-season");
+        saveToLocalStorage("mineralSeason", season);
+
+        // 更新礦物圖片
+        mineralGallery.innerHTML = `
         <img src="images/stone/${season}_mountain.png" alt="${season} Mountain">
         <img src="images/stone/${season}_town.png" alt="${season} Town">
       `;
+      });
     });
-  });
 
-  // 初始化礦物分布的預設值
-  const activeTab = document.querySelector(
-    `.tabs button[data-season="${currentMineralSeason}"]`
-  );
-  if (activeTab) {
-    activeTab.click();
+    // 初始化礦物分布的預設值
+    const currentMineralSeason = getFromLocalStorage("mineralSeason", "spring");
+    const activeTab = document.querySelector(
+      `.tabs button[data-season="${currentMineralSeason}"]`
+    );
+    if (activeTab) {
+      activeTab.click();
+    }
+  } else {
+    document.getElementById("minerals").style.display = "none"; // 隱藏礦物分布區塊
   }
 });
