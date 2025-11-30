@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     calendarContainer.innerHTML = ""; // 清空行事曆
 
     const daysInSeason = 30; // 每季固定30天
-    const firstDayOfYear = 6; // 第一年的1號是周六 (0: 周日, 6: 周六)
+    const firstDayOfYear = 1; // 第一年的1號是周一 (0: 周日, 6: 周六)
     const firstDayOfSeason =
       (firstDayOfYear + (year - 1) * 120 + seasonIndex * 30) % 7;
 
