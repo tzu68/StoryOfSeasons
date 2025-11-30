@@ -3,22 +3,43 @@ body {
   font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  background: url("images/background/backgroud.jpg") no-repeat center center
+    fixed;
+  background-size: cover;
+  position: relative;
   color: #333;
   line-height: 1.6;
 }
 
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  z-index: -1;
+}
+
 header {
-  background-color: #6bbf59;
+  position: sticky;
+  top: 0;
+  background-color: #ecd1a2;
   color: #fff;
   padding: 1rem 0;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  box-shadow: #333 2px 2px 5px;
+  background-image: url("images/background/section_background.png");
+  background-size: contain;
 }
 
 header h1 {
   margin: 0;
   font-size: 2rem;
+  color: #6c563f;
 }
 
 nav ul {
@@ -35,7 +56,7 @@ nav ul li {
 }
 
 nav ul li a {
-  color: #fff;
+  color: #6c563f;
   text-decoration: none;
   font-weight: bold;
   padding: 0.5rem 1rem;
@@ -44,23 +65,79 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  background-color: #4a9c3e;
+  color: #fff;
+  background-color: #6c563f;
 }
 
 /* 分頁樣式 */
 main section {
+  position: relative;
   padding: 2rem;
   margin: 1rem auto;
   max-width: 1200px;
-  background: #fff;
   border-radius: 10px;
+  background-color: #fffae7;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+main section::before,
+main section::after {
+  top: 0;
+  left: 0;
+  z-index: 0;
+  height: 200px;
+  width: 100%;
+  content: "";
+  position: absolute;
+  background-image: url(images/background/section_background.png);
+  background-repeat: repeat-x;
+  opacity: 0.5;
+}
+
+main section::after {
+  bottom: 0;
+  top: auto;
+  transform: scaleY(-1);
+}
+
+.content {
+  position: relative;
+  z-index: 20;
 }
 
 h2 {
-  color: #6bbf59;
-  border-bottom: 2px solid #6bbf59;
-  padding-bottom: 0.5rem;
+  position: relative;
+  color: #6c563f;
+  border-bottom: 2px solid #6c563f;
+  background-color: #ecd1a2;
+  border-radius: 5em;
+  padding: 0.3em 1em;
+  padding-left: 2.5em;
+  line-height: 2em;
+  box-shadow: #333 2px 2px 5px;
+}
+
+h2::before {
+  content: " ";
+  position: absolute;
+  top: 0.9em;
+  left: 1em;
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: 50%;
+  background-color: #dab275;
+}
+
+h2::after {
+  top: 0.3em;
+  left: 0.3em;
+  bottom: 0.3em;
+  right: 0.3em;
+  content: "";
+  position: absolute;
+  border: 3px solid #dab27e;
+  border-radius: 2em;
 }
 
 /* 行事曆 */
@@ -80,6 +157,10 @@ h2 {
   #interactive-calendar div {
     min-width: 80px; /* 縮小單元格寬度 */
     font-size: 0.8rem; /* 縮小字體大小 */
+  }
+
+  nav ul {
+    gap: 0rem;
   }
 }
 
@@ -105,12 +186,13 @@ h2 {
 
 #interactive-calendar {
   padding: 1rem;
-  border-right: 1px solid #ccc;
 }
 
 #info-container {
+  border-radius: 1rem;
+  border: 2px solid #dab275;
   padding: 1rem;
-  background-color: #f9f9f9;
+  background-color: #ecd1a277;
 }
 
 /* 居民資訊卡片 */
@@ -128,11 +210,6 @@ h2 {
   padding: 1rem;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.resident-card h3 {
-  margin: 0.5rem 0;
-  color: #6bbf59;
 }
 
 .resident-card img {
@@ -165,7 +242,7 @@ h2 {
 }
 
 .resident-card[data-color="Yellow"] {
-  border: 2px solid #ffff93;
+  border: 2px solid #ffff1a;
   box-shadow: 0 4px 8px rgba(255, 255, 147, 0.5);
 }
 
@@ -271,4 +348,47 @@ footer {
   background: #6bbf59;
   color: #fff;
   margin-top: 2rem;
+}
+
+.weekday-cell,
+.favorite,
+.like,
+.dislike,
+.normal {
+  border-radius: 10em;
+  background-size: cover;
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+}
+
+.favorite,
+.like {
+  background-image: url("images/background/sunday_background.png");
+}
+
+.dislike {
+  background-image: url("images/background/saturday_background.png");
+}
+
+.normal {
+  background-image: url("images/background/normal_background.png");
+}
+
+.dateCell {
+  padding: 0.5rem;
+  text-align: left;
+  border: 2px solid #dab275;
+  border-radius: 0.5rem;
+  color: #6c563f;
+  font-weight: bold;
+  background-color: #ecd1a277;
+}
+
+.event-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #6c563f;
 }

@@ -50,7 +50,38 @@ document.addEventListener("DOMContentLoaded", async () => {
   ];
 
   const seasons = ["春", "夏", "秋", "冬"];
-  const weekdays = ["日", "一", "二", "三", "四", "五", "六"];
+  /*const weekdays = ["日", "一", "二", "三", "四", "五", "六"];*/
+
+  const weekdays = [
+    {
+      text: "日",
+      bgImg: "images/background/sunday_background.png",
+    },
+    {
+      text: "一",
+      bgImg: "images/background/normal_background.png",
+    },
+    {
+      text: "二",
+      bgImg: "images/background/normal_background.png",
+    },
+    {
+      text: "三",
+      bgImg: "images/background/normal_background.png",
+    },
+    {
+      text: "四",
+      bgImg: "images/background/normal_background.png",
+    },
+    {
+      text: "五",
+      bgImg: "images/background/normal_background.png",
+    },
+    {
+      text: "六",
+      bgImg: "images/background/saturday_background.png",
+    },
+  ];
 
   // 讀取居民資料
   async function loadResidents() {
@@ -67,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           )}-${String(resident.birthday.day).padStart(2, "0")}`;
           events.push({
             date: formattedDate,
-            name: `${resident.name} 生日`,
+            name: `${resident.name}`,
             type: "birthday",
             picture: resident.picture,
             color: resident.color,
@@ -98,9 +129,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 添加星期標題
     weekdays.forEach((weekday) => {
       const weekdayCell = document.createElement("div");
-      weekdayCell.textContent = weekday;
-      weekdayCell.style.textAlign = "center";
-      weekdayCell.style.fontWeight = "bold";
+      weekdayCell.textContent = weekday.text;
+      weekdayCell.style.backgroundImage = `url(${weekday.bgImg})`;
+
+      weekdayCell.classList.add("weekday-cell");
       calendarGrid.appendChild(weekdayCell);
     });
 
@@ -119,11 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       )}-${String(day).padStart(2, "0")}`;
 
       dateCell.textContent = day;
-      dateCell.style.padding = "1rem";
-      dateCell.style.textAlign = "center";
-      dateCell.style.border = "1px solid #cde5cd";
-      dateCell.style.borderRadius = "5px";
-      dateCell.style.backgroundColor = "#eaf5e9";
+      dateCell.classList.add("dateCell");
 
       // 檢查是否有節日或生日
       const event = events.find((e) => e.date === formattedDate);
@@ -148,33 +176,31 @@ document.addEventListener("DOMContentLoaded", async () => {
           eventImage.style.margin = "0.5rem auto 0";
           eventImage.style.width = "50px";
           eventImage.style.height = "50px";
-          eventImage.style.borderRadius = "50%";
+          eventImage.style.borderRadius = "10px";
           dateCell.appendChild(eventImage);
 
           // 點擊事件顯示居民資訊
           dateCell.addEventListener("click", () => {
             infoContainer.innerHTML = `
-                            <p>${event.name}</p>
+                            <p class="event-name">${event.name}</p>
                             <img src="images/people/${event.picture}" alt="${
               event.name
-            }" style="width:100px;height:100px;border-radius:50%;display:block;margin:0 auto;"/>
-                            <hr/>
+            }" style="width:100px;height:100px;border-radius:20px;display:block;margin:0 auto;"/>
+                         
                             <div>
-                                <p>最喜歡</p>
+                                <p class="favorite">最喜歡</p>
                                 <p>${event.favorite}</p>
                             </div>
                             <div>
-                                <p>喜歡</p>
+                                <p class="like">喜歡</p>
                                 <p>${event.likes.join(", ")}</p>
                             </div>
-                            <hr/>
                             <div>
-                                <p>討厭</p>
+                                <p class="dislike">討厭</p>
                                 <p>${event.dislikes.join(", ")}</p>
                             </div>
-                            <hr/>
                             <div>
-                                <p>喜歡的顏色</p>
+                                <p class="normal">喜歡的顏色</p>
                                 <p>${event.color}</p>
                             </div>
                         `;
@@ -207,12 +233,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.innerHTML = `
         <img src="images/people/${resident.picture}" alt="${
         resident.name
-      }" style="width:100px;height:100px;border-radius:50%;display:block;margin:0 auto;"/>
-        <h3>${resident.name}</h3>
-        <p>生日：${resident.birthday.season} ${resident.birthday.day}日</p>
-        <p>最喜歡：${resident.favorite}</p>
-        <p>喜歡：${resident.likes.join(", ")}</p>
-        <p>討厭：${resident.dislikes.join(", ")}</p>
+      }" style="width:100px;height:100px;border-radius:30px;display:block;margin:0 auto;"/>
+        <h3 class="event-name">${resident.name}</h3>
+        <p class="normal">生日</p>
+        <p>${resident.birthday.season} ${resident.birthday.day}日</p>
+        <p class="favorite">最喜歡</p>
+        <p>${resident.favorite}</p>
+        <p class="like">喜歡</p>
+        <p>${resident.likes.join(", ")}</p>
+        <p class="dislike">討厭</p>
+        <p>${resident.dislikes.join(", ")}</p>
       `;
 
       residentCardsContainer.appendChild(card);

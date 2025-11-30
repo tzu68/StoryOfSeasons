@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>牧場物語 風之市集 遊戲小幫手</title>
+    <title>遊戲小幫手</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="images/icon.png">
     <link rel=" apple-touch-icon" href="images/icon.png">
@@ -13,10 +13,9 @@
 
 <body>
     <header>
-        <h1>牧場物語 風之市集</h1>
+        <h1>遊戲小幫手</h1>
         <nav>
             <ul>
-                <li><a href="#home">首頁</a></li>
                 <li><a href="#calendar">行事曆</a></li>
                 <li><a href="#residents">結婚候補資訊</a></li>
                 <li><a href="#animals">動物外觀</a></li>
@@ -26,65 +25,62 @@
     </header>
 
     <main>
-        <!-- 首頁 -->
-        <section id="home">
-            <h2>首頁</h2>
-            <p>快速連結到其他分頁：</p>
-            <ul>
-                <li><a href="#calendar">行事曆</a></li>
-                <li><a href="#residents">結婚候補資訊</a></li>
-                <li><a href="#animals">動物外觀</a></li>
-                <li><a href="#minerals">礦物分布</a></li>
-            </ul>
+        <!-- 行事曆 -->
+        <section>
+            <div class="content" id="calendar">
+                <h2>行事曆</h2>
+                <div class="calendarCard" id="interactive-calendar">
+                    <!-- JavaScript 生成互動式行事曆 -->
+                </div>
+            </div>
         </section>
 
-        <!-- 行事曆 -->
-        <section id="calendar">
-            <h2>行事曆</h2>
-            <div id="interactive-calendar">
-                <!-- JavaScript 生成互動式行事曆 -->
+        <!-- 礦物分布 -->
+        <section>
+            <div class="content" id="minerals">
+                <h2>礦物分布</h2>
+                <p>這裡的圖片來自於 予樂</p>
+                <div class="tabs">
+                    <button data-season="spring">春季</button>
+                    <button data-season="summer">夏季</button>
+                    <button data-season="fall">秋季</button>
+                    <button data-season="winter">冬季</button>
+                </div>
+                <div id="mineral-gallery">
+                    <img src="images/stone/spring_mountain.png" alt="Spring Mountain">
+                    <img src="images/stone/spring_town.png" alt="Spring Town">
+                </div>
             </div>
         </section>
 
         <!-- 結婚候補資訊 -->
-        <section id="residents">
-            <h2>結婚候補資訊</h2>
-            <div id="resident-cards">
-                <!-- JavaScript 生成居民卡片 -->
+        <section>
+            <div class="content" id="residents">
+                <h2>結婚候補資訊</h2>
+                <div id="resident-cards">
+                    <!-- JavaScript 生成居民卡片 -->
+                </div>
             </div>
         </section>
 
         <!-- 動物外觀 -->
-        <section id="animals">
-            <h2>動物外觀</h2>
+        <section>
+            <div class="content" id="animals">
+                <h2>動物外觀</h2>
 
-            <div class="animal-gallery-container">
-                <button class="scroll-btn left">←</button>
-                <div class="animal-gallery">
-                    <img src="images/animals/animal01.png" alt="Animal 1" />
-                    <img src="images/animals/animal02.png" alt="Animal 2" />
-                    <img src="images/animals/animal03.png" alt="Animal 3" />
+                <div class="animal-gallery-container">
+                    <button class="scroll-btn left">←</button>
+                    <div class="animal-gallery">
+                        <img src="images/animals/animal01.png" alt="Animal 1" />
+                        <img src="images/animals/animal02.png" alt="Animal 2" />
+                        <img src="images/animals/animal03.png" alt="Animal 3" />
+                    </div>
+                    <button class="scroll-btn right">→</button>
                 </div>
-                <button class="scroll-btn right">→</button>
-            </div>
-
-        </section>
-
-        <!-- 礦物分布 -->
-        <section id="minerals">
-            <h2>礦物分布</h2>
-            <p>這裡的圖片來自於 予樂</p>
-            <div class="tabs">
-                <button data-season="spring">春季</button>
-                <button data-season="summer">夏季</button>
-                <button data-season="fall">秋季</button>
-                <button data-season="winter">冬季</button>
-            </div>
-            <div id="mineral-gallery">
-                <img src="images/stone/spring_mountain.png" alt="Spring Mountain">
-                <img src="images/stone/spring_town.png" alt="Spring Town">
             </div>
         </section>
+
+
     </main>
 
     <footer>
