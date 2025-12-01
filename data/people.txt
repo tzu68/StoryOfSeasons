@@ -3,141 +3,153 @@
     "id": 1,
     "name": "優里斯",
     "birthday": { "season": "秋", "day": 20 },
-    "favorite": "草藥香水",
-    "likes": ["所有草藥", "所有香水", "所有沙拉"],
-    "dislikes": ["甜食", "所有魚類", "所有紅茶"],
-    "picture":"People01.png",
-    "color":"Blue",
-    "married":true
+    "favorite": "香草香水",
+    "likes": ["魔法藍草", "香草類", "香水類", "沙拉類", "蜻蜓類"],
+    "dislikes": ["甜食", "魚類", "紅茶類", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "圓形起司蛋糕",
+    "picture": "People01.png",
+    "color": "Blue",
+    "married": true
   },
   {
     "id": 2,
     "name": "迪路卡",
     "birthday": { "season": "夏", "day": 12 },
     "favorite": "奶油可樂餅",
-    "likes": ["所有獨角仙", "所有咖哩", "所有蓋飯類料理"],
-    "dislikes": ["所有沙拉", "所有魚類", "所有醃菜"],
-    "picture":"People02.png",
-    "color":"Red",
-    "married":true
+    "likes": ["魔法紅草", "獨角仙類", "鍬形蟲類", "咖哩飯料理", "蓋飯料理"],
+    "dislikes": ["咖哩麵包", "沙拉料理", "魚類", "醃菜類", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "海苔醬",
+    "picture": "People02.png",
+    "color": "Red",
+    "married": true
   },
   {
     "id": 3,
     "name": "洛伊德",
     "birthday": { "season": "秋", "day": 3 },
-    "favorite": "西班牙海鮮飯",
-    "likes": ["所有火鍋", "所有昆蟲", "所有果汁"],
-    "dislikes": ["所有蛋類料理", "所有牛奶料理", "所有魚類"],
-    "picture":"People03.png",
-    "color":"Blue",
-    "married":true
+    "favorite": "海鮮燉飯",
+    "likes": ["魔法藍草", "起司火鍋類", "蟲類", "果汁類", "茶葉類"],
+    "dislikes": ["蛋料理", "牛奶料理", "魚類", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "水煮蛋",
+    "picture": "People03.png",
+    "color": "Blue",
+    "married": true
   },
   {
     "id": 4,
     "name": "亞齊",
     "birthday": { "season": "冬", "day": 28 },
     "favorite": "蛋包飯",
-    "likes": ["奶汁烤菜", "所有水果", "甜食"],
-    "dislikes": ["所有醃菜", "所有魚類", "所有粥"],
-    "picture":"People04.png",
-    "color":"Yellow",
-    "married":true
+    "likes": ["月落草", "焗烤", "水果類", "雞蛋", "牛奶", "甜食", "咖哩類"],
+    "dislikes": ["醃菜類", "魚類", "粥料理", "蜻蜓類", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "粥",
+    "picture": "People04.png",
+    "color": "Yellow",
+    "married": true
   },
   {
     "id": 5,
     "name": "舒密特",
     "birthday": { "season": "冬", "day": 26 },
-    "favorite": "燉菜",
-    "likes": ["米飯", "所有米類料理", "所有鍬形蟲"],
-    "dislikes": ["彩虹咖哩", "究極咖哩", "至高咖哨", "所有魚類", "所有果汁"],
-    "picture":"People05.png",
-    "color":"Yellow",
-    "married":true
+    "favorite": "奶油燉菜",
+    "likes": ["月落草", "牛奶", "巧克力", "飯", "飯料理", "粥", "牛奶粥", "香草粥", "蛋花湯", "鍬形蟲類"],
+    "dislikes": ["彩虹咖哩", "頂級咖哩", "烤松茸", "草莓茶", "海鮮燉飯", "魚類", "果汁類", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "終級咖哩",
+    "picture": "People05.png",
+    "color": "Yellow",
+    "married": true
   },
   {
     "id": 6,
     "name": "新太",
     "birthday": { "season": "冬", "day": 17 },
-    "favorite": "烏冬面蓋飯",
-    "likes": ["熱牛奶", "所有魚類", "所有咖哩"],
-    "dislikes": ["所有草藥", "所有紅茶", "所有醃菜"],
-    "picture":"People06.png",
-    "color":"Blue",
-    "married":true
+    "favorite": "鰻魚蓋飯",
+    "likes": ["魚類", "咖哩料理"],
+    "dislikes": ["香草類", "紅茶類", "醃菜類", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "西班牙冷湯",
+    "picture": "People06.png",
+    "color": "Blue",
+    "married": true
   },
   {
     "id": 7,
     "name": "榭露芙",
     "birthday": { "season": "春", "day": 16 },
-    "favorite": "草藥沙拉",
-    "likes": ["所有醃菜", "所有沙拉", "月落草"],
-    "dislikes": ["所有咖哩", "所有魚類", "所有湯"],
-    "picture":"People07.png",
-    "color":"Yellow",
-    "married":true
+    "favorite": "香草沙拉",
+    "likes": ["月落草", "蛋花湯", "醃菜類", "沙拉料理", "麵包料理", "蝴蝶類"],
+    "dislikes": ["咖哩料理", "魚類", "湯料理", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "辣咖哩",
+    "picture": "People07.png",
+    "color": "Yellow",
+    "married": true
   },
   {
     "id": 8,
     "name": "安琪",
     "birthday": { "season": "冬", "day": 12 },
     "favorite": "櫻桃茶",
-    "likes": ["所有飾品", "所有紅茶", "所有青蛙"],
-    "dislikes": ["雞蛋蓋飯", "所有魚類", "所有蝗蟲"],
-    "picture":"People08.png",
-    "color":"Blue",
-    "married":true
+    "likes": ["魔法藍草", "飾品類", "紅茶類", "餅乾類", "青蛙類"],
+    "dislikes": ["魚類", "蝗蟲類", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "生蛋拌飯",
+    "picture": "People08.png",
+    "color": "Blue",
+    "married": true
   },
   {
     "id": 9,
     "name": "芙蕾雅",
     "birthday": { "season": "秋", "day": 25 },
     "favorite": "柑橘香水",
-    "likes": ["所有飾品", "所有寶石", "熱牛奶"],
-    "dislikes": ["所有天婦羅料理", "所有魚類", "所有青蛙"],
-    "picture":"People09.png",
-    "color":"Red",
-    "married":true
+    "likes": ["魔法紅草", "熱牛奶", "牛奶類", "蝴蝶類"],
+    "dislikes": ["天婦羅料理", "魚類", "青蛙類", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "天婦羅",
+    "picture": "People09.png",
+    "color": "Red",
+    "married": true
   },
   {
     "id": 10,
     "name": "梅芙爾",
     "birthday": { "season": "秋", "day": 14 },
-    "favorite": "王室晚餐",
-    "likes": ["甜食", "所有花", "所有蝴蝶"],
-    "dislikes": ["所有青蛙", "所有魚類", "所有咖哩"],
-    "picture":"People10.png",
-    "color":"Red",
-    "married":true
+    "favorite": "焦糖核桃蛋糕",
+    "likes": ["魔法紅草", "月落草", "甜食", "花", "巧克力類", "蝴蝶類"],
+    "dislikes": ["青蛙類", "魚類", "咖哩料理", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "黑斑蛙",
+    "picture": "People10.png",
+    "color": "Red",
+    "married": true
   },
   {
     "id": 11,
     "name": "香月",
     "birthday": { "season": "春", "day": 5 },
-    "favorite": "豆乳布丁",
-    "likes": ["所有豆腐料理", "所有野草", "所有農作物"],
-    "dislikes": ["所有料理", "所有飾品", "所有寶石"],
-    "picture":"People11.png",
-    "color":"Blue",
-    "married":true
+    "favorite": "豆漿布丁",
+    "likes": ["花", "豆漿", "豆腐料理", "野花類", "香草類", "作物類"],
+    "dislikes": ["料理類", "飾品類", "寶石類", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "究極咖哩",
+    "picture": "People11.png",
+    "color": "Blue",
+    "married": true
   },
   {
     "id": 12,
-    "name": "戴安娜",
+    "name": "黛安娜",
     "birthday": { "season": "秋", "day": 22 },
     "favorite": "蘋果派",
-    "likes": ["蘋果料理", "所有紅茶", "所有蝴蝶"],
-    "dislikes": ["所有油炸食品", "所有牛奶料理", "所有蝗蟲"],
-    "picture":"People12.png",
-    "color":"Red",
-    "married":true
-  },
-  {
+    "likes": ["蘋果料理", "紅茶類", "巧克力類"],
+    "dislikes": ["油炸料理", "牛奶料理", "蝗蟲類", "木片", "木材", "石頭", "石材"],
+    "mostDisliked": "魚板",
+    "picture": "People12.png",
+    "color": "Red",
+    "married": true
+  },{
     "id": 13,
     "name": "菲利克斯",
     "birthday": { "season": "夏", "day": 1 },
     "favorite": "辛辣咖哩",
     "likes": ["所有咖哩料理", "所有獨角仙", "魔法紅花"],
     "dislikes": ["所有茄子料理", "甜食"],
+    "mostDisliked": "",
     "picture":"People13.png",
     "color":"Red",
     "married":false
@@ -149,6 +161,7 @@
     "favorite": "可樂餅",
     "likes": ["所有飾品", "所有螢火蟲", "魔法紅花"],
     "dislikes": ["甜食", "所有紅茶", "所有果汁"],
+    "mostDisliked": "",
     "picture":"People14.png",
     "color":"Red",
     "married":false
@@ -160,6 +173,7 @@
     "favorite": "春色混合茶",
     "likes": ["所有紅茶", "所有果汁", "所有沙拉"],
     "dislikes": ["所有乳酪料理", "所有家常菜"],
+    "mostDisliked": "",
     "picture":"People15.png",
     "color":"Blue",
     "married":false
@@ -171,6 +185,7 @@
     "favorite": "栗子蛋糕",
     "likes": ["所有蜂蜜", "所有紅茶", "所有醃菜"],
     "dislikes": ["所有魚類", "所有咖哩", "所有寶石"],
+    "mostDisliked": "",
     "picture":"People16.png",
     "color":"Yellow",
     "married":false
@@ -182,6 +197,7 @@
     "favorite": "水果白玉",
     "likes": ["所有果汁", "所有紅茶", "所有野草"],
     "dislikes": ["所有豆腐料理", "所有咖哩", "所有油炸食品"],
+    "mostDisliked": "",
     "picture":"People17.png",
     "color":"Red",
     "married":false
@@ -193,6 +209,7 @@
     "favorite": "水果三明治",
     "likes": ["所有派", "所有野草", "所有水果料理"],
     "dislikes": ["所有蕪菁料理", "所有魚類料理", "所有沙拉"],
+    "mostDisliked": "",
     "picture":"People18.png",
     "color":"Yellow",
     "married":false
@@ -204,6 +221,7 @@
     "favorite": "草藥意麵",
     "likes": ["所有草藥", "所有草藥料理", "所有野草"],
     "dislikes": ["所有昆蟲", "所有魚類", "所有飯糰"],
+    "mostDisliked": "",
     "picture":"People19.png",
     "color":"Yellow",
     "married":false
@@ -215,6 +233,7 @@
     "favorite": "蘑菇蒸菜",
     "likes": ["所有茄子料理", "所有魚類", "所有獨角仙"],
     "dislikes": ["甜食", "所有紅茶", "所有果汁"],
+    "mostDisliked": "",
     "picture":"People20.png",
     "color":"Red",
     "married":false
@@ -226,6 +245,7 @@
     "favorite": "西蘭花醃菜",
     "likes": ["所有醃菜", "所有家常菜", "所有蘑菇"],
     "dislikes": ["所有昆蟲", "所有果汁", "所有紅茶"],
+    "mostDisliked": "",
     "picture":"People21.png",
     "color":"Blue",
     "married":false
@@ -237,6 +257,7 @@
     "favorite": "大鍬形蟲",
     "likes": ["所有昆蟲", "甜食", "所有咖哩"],
     "dislikes": ["所有醃菜", "所有粥", "所有豆腐料理"],
+    "mostDisliked": "",
     "picture":"People22.png",
     "color":"Red",
     "married":false
@@ -248,6 +269,7 @@
     "favorite": "果醬麵包",
     "likes": ["所有三明治", "甜食", "所有蟬"],
     "dislikes": ["所有咖哩", "所有牛奶料理", "所有蝗蟲"],
+    "mostDisliked": "",
     "picture":"People23.png",
     "color":"Red",
     "married":false
@@ -259,6 +281,7 @@
     "favorite": "頂級牛奶",
     "likes": ["所有湯", "熱牛奶", "所有醃菜"],
     "dislikes": ["所有獎牌", "所有火鍋料理", "墨西哥沙拉"],
+    "mostDisliked": "",
     "picture":"People24.png",
     "color":"Yellow",
     "married":false
@@ -270,6 +293,7 @@
     "favorite": "甜甜圈",
     "likes": ["甜食", "所有蛋類料理", "所有魚類"],
     "dislikes": ["青椒", "所有野草", "所有牛奶料理"],
+    "mostDisliked": "",
     "picture":"People25.png",
     "color":"Blue",
     "married":false
@@ -281,6 +305,7 @@
     "favorite": "紅薯甜點",
     "likes": ["甜食", "所有草藥", "所有螢火蟲"],
     "dislikes": ["胡蘿蔔", "所有魚類", "所有青蛙"],
+    "mostDisliked": "",
     "picture":"People26.png",
     "color":"Blue",
     "married":false
@@ -292,6 +317,7 @@
     "favorite": "究極咖哩",
     "likes": ["所有布丁", "所有紅茶", "所有獨角仙"],
     "dislikes": ["番茄", "除布丁外的甜食", "烤年糕"],
+    "mostDisliked": "",
     "picture":"People27.png",
     "color":"Blue",
     "married":false
@@ -303,6 +329,7 @@
     "favorite": "海苔咖哩",
     "likes": ["所有巧克力料理", "金盞花", "所有野草"],
     "dislikes": ["所有油炸食品", "所有昆蟲", "所有咖哩料理"],
+    "mostDisliked": "",
     "picture":"People28.png",
     "color":"Yellow",
     "married":false

@@ -105,6 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             favorite: resident.favorite,
             likes: resident.likes,
             dislikes: resident.dislikes,
+            mostDisliked: resident.mostDisliked, // 新增最討厭的東西
           });
         }
       }
@@ -200,6 +201,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 <p>${event.dislikes.join(", ")}</p>
                             </div>
                             <div>
+                                <p class="dislike">最討厭</p>
+                                <p>${event.mostDisliked}</p>
+                            </div>
+                            <div>
                                 <p class="normal">喜歡的顏色</p>
                                 <p>${event.color}</p>
                             </div>
@@ -243,6 +248,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         <p>${resident.likes.join(", ")}</p>
         <p class="dislike">討厭</p>
         <p>${resident.dislikes.join(", ")}</p>
+        <p class="dislike">最討厭</p>
+        <p>${resident.mostDisliked}</p>
       `;
 
       residentCardsContainer.appendChild(card);
