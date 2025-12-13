@@ -116,10 +116,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function generateCalendar(year, seasonIndex) {
     calendarContainer.innerHTML = ""; // 清空行事曆
 
-    const daysInSeason = 30; // 每季固定30天
-    const firstDayOfYear = 1; // 第一年的1號是周一 (0: 周日, 6: 周六)
+    const daysInSeason = 31; // 每季固定31天
+    const firstDayOfYear = 6; // 第一年的春1日是周六 (0: 周日, 6: 周六)
     const firstDayOfSeason =
-      (firstDayOfYear + (year - 1) * 120 + seasonIndex * 30) % 7;
+      (firstDayOfYear + (year - 1) * 124 + seasonIndex * 31) % 7; // 每年4季，每季31天
 
     // 建立行事曆表格
     const calendarGrid = document.createElement("div");
