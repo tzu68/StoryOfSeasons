@@ -246,6 +246,36 @@ h2::after {
   box-shadow: 0 4px 8px rgba(255, 255, 147, 0.5);
 }
 
+/* 賺錢料理 */
+#cooking-cards,
+#cooking-tips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cooking-card,
+.cooking-tip {
+  background-color: #ecd1a277;
+  border: 2px solid #dab275;
+  border-radius: 10px;
+  padding: 1rem;
+  color: #6c563f;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cooking-card ul,
+.cooking-tip ul {
+  text-align: left;
+  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+}
+
+.cooking-tip h3 {
+  margin-top: 0;
+}
+
 /* 動物外觀 */
 .image-gallery {
   display: grid;
@@ -383,6 +413,13 @@ footer {
   color: #6c563f;
   font-weight: bold;
   background-color: #ecd1a277;
+}
+
+.festival-label {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #b0412b;
 }
 
 .event-name {

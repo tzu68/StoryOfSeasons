@@ -42,14 +42,24 @@ document.addEventListener("DOMContentLoaded", async () => {
   parent.appendChild(wrapper);
 
   // 節日與居民生日資料
-  const events = [
-    { date: "1-01-15", name: "春季節日", type: "festival" },
-    { date: "1-02-10", name: "夏季節日", type: "festival" },
-    { date: "1-03-05", name: "秋季節日", type: "festival" },
-    { date: "1-04-20", name: "冬季節日", type: "festival" },
-  ];
+  const events = [];
 
   const seasons = ["春", "夏", "秋", "冬"];
+  const daysInSeason = 31; // 每季固定31天
+  const firstDayOfYear = 6; // 第一年的春1日是周六 (0: 周日, 6: 周六)
+
+  // 計算某年某季第1天是星期幾
+  function getFirstDayOfSeason(year, seasonIndex) {
+    return (
+      (firstDayOfYear + (year - 1) * daysInSeason * 4 + seasonIndex * daysInSeason) % 7
+    ); // 每年4季，每季31天
+  }
+
+  function formatDate(year, seasonIndex, day) {
+    return `${year}-${String(seasonIndex + 1).padStart(2, "0")}-${String(
+      day
+    ).padStart(2, "0")}`;
+  }
   /*const weekdays = ["日", "一", "二", "三", "四", "五", "六"];*/
 
   const weekdays = [
@@ -112,14 +122,46 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  // 讀取節日資料，依年份計算實際日期
+  // week + date：該季第 week 個「星期X」，after：再往後幾天，day：固定日期
+  async function loadFestivals() {
+    const response = await fetch("data/Event.txt");
+    const festivals = await response.json();
+
+    festivals.forEach((festival) => {
+      const seasonIndex = seasons.indexOf(festival.season.replace("季", ""));
+      if (seasonIndex === -1) return;
+
+      for (let year = 1; year <= 5; year++) {
+        let day = festival.day;
+        if (!day) {
+          const weekday = weekdays.findIndex(
+            (w) => festival.date === `星期${w.text}`
+          );
+          const firstDayOfSeason = getFirstDayOfSeason(year, seasonIndex);
+          day =
+            1 +
+            ((weekday - firstDayOfSeason + 7) % 7) +
+            (festival.week - 1) * 7 +
+            (festival.after || 0);
+        }
+        if (day > daysInSeason) continue;
+
+        events.push({
+          date: formatDate(year, seasonIndex, day),
+          name: festival.event,
+          type: "festival",
+          time: festival.time,
+        });
+      }
+    });
+  }
+
   // 初始化行事曆
   async function generateCalendar(year, seasonIndex) {
     calendarContainer.innerHTML = ""; // 清空行事曆
 
-    const daysInSeason = 31; // 每季固定31天
-    const firstDayOfYear = 6; // 第一年的春1日是周六 (0: 周日, 6: 周六)
-    const firstDayOfSeason =
-      (firstDayOfYear + (year - 1) * 124 + seasonIndex * 31) % 7; // 每年4季，每季31天
+    const firstDayOfSeason = getFirstDayOfSeason(year, seasonIndex);
 
     // 建立行事曆表格
     const calendarGrid = document.createElement("div");
@@ -146,21 +188,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 填入日期
     for (let day = 1; day <= daysInSeason; day++) {
       const dateCell = document.createElement("div");
-      const formattedDate = `${year}-${String(seasonIndex + 1).padStart(
-        2,
-        "0"
-      )}-${String(day).padStart(2, "0")}`;
+      const formattedDate = formatDate(year, seasonIndex, day);
 
       dateCell.textContent = day;
       dateCell.classList.add("dateCell");
 
-      // 檢查是否有節日或生日
-      const event = events.find((e) => e.date === formattedDate);
-      if (event) {
-        if (event.type === "festival") {
-          dateCell.style.backgroundColor = "#ffeb3b"; // 節日顏色
-        } else if (event.type === "birthday") {
-          // 根據居民喜歡的顏色設置背景色
+      // 檢查是否有節日或生日（同一天可能有多個）
+      const dayEvents = events.filter((e) => e.date === formattedDate);
+      const festivals = dayEvents.filter((e) => e.type === "festival");
+      const birthdays = dayEvents.filter((e) => e.type === "birthday");
+
+      festivals.forEach((event) => {
+        dateCell.style.backgroundColor = "#ffeb3b"; // 節日顏色
+
+        // 顯示節日名稱
+        const festivalLabel = document.createElement("span");
+        festivalLabel.className = "festival-label";
+        festivalLabel.textContent = event.name;
+        dateCell.appendChild(festivalLabel);
+      });
+
+      birthdays.forEach((event) => {
+        // 根據居民喜歡的顏色設置背景色（節日優先）
+        if (festivals.length === 0) {
           if (event.color === "Yellow") {
             dateCell.style.backgroundColor = "#FFFF93";
           } else if (event.color === "Blue") {
@@ -168,26 +218,45 @@ document.addEventListener("DOMContentLoaded", async () => {
           } else if (event.color === "Red") {
             dateCell.style.backgroundColor = "#ffccbc"; // 保持紅色
           }
+        }
 
-          // 顯示居民圖片
-          const eventImage = document.createElement("img");
-          eventImage.src = `images/people/${event.picture}`;
-          eventImage.alt = event.name;
-          eventImage.style.display = "block";
-          eventImage.style.margin = "0.5rem auto 0";
-          eventImage.style.width = "50px";
-          eventImage.style.height = "50px";
-          eventImage.style.borderRadius = "10px";
-          dateCell.appendChild(eventImage);
+        // 顯示居民圖片
+        const eventImage = document.createElement("img");
+        eventImage.src = `images/people/${event.picture}`;
+        eventImage.alt = event.name;
+        eventImage.style.display = "block";
+        eventImage.style.margin = "0.5rem auto 0";
+        eventImage.style.width = "50px";
+        eventImage.style.height = "50px";
+        eventImage.style.borderRadius = "10px";
+        dateCell.appendChild(eventImage);
+      });
 
-          // 點擊事件顯示居民資訊
-          dateCell.addEventListener("click", () => {
-            infoContainer.innerHTML = `
+      if (dayEvents.length > 0) {
+        dateCell.style.cursor = "pointer";
+
+        // 點擊事件顯示節日與居民資訊
+        dateCell.addEventListener("click", () => {
+          infoContainer.innerHTML =
+            festivals
+              .map(
+                (event) => `
+                            <p class="event-name">${event.name}</p>
+                            <div>
+                                <p class="normal">時間</p>
+                                <p>${event.time}</p>
+                            </div>
+                        `
+              )
+              .join("") +
+            birthdays
+              .map(
+                (event) => `
                             <p class="event-name">${event.name}</p>
                             <img src="images/people/${event.picture}" alt="${
-              event.name
-            }" style="width:100px;height:100px;border-radius:20px;display:block;margin:0 auto;"/>
-                         
+                  event.name
+                }" style="width:100px;height:100px;border-radius:20px;display:block;margin:0 auto;"/>
+
                             <div>
                                 <p class="favorite">最喜歡</p>
                                 <p>${event.favorite}</p>
@@ -208,10 +277,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 <p class="normal">喜歡的顏色</p>
                                 <p>${event.color}</p>
                             </div>
-                        `;
-          });
-        }
-        dateCell.title = event.name; // 顯示提示文字
+                        `
+              )
+              .join("");
+        });
+
+        dateCell.title = dayEvents.map((e) => e.name).join("、"); // 顯示提示文字
       }
 
       calendarGrid.appendChild(dateCell);
@@ -256,6 +327,67 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  // 賺錢料理區塊功能
+  async function loadCookingGuide() {
+    const response = await fetch("data/cooking.txt");
+    const guide = await response.json();
+
+    document.getElementById("cooking-source").innerHTML = `資料整理自 ${guide.source.author}：<a href="${guide.source.url}" target="_blank" rel="noopener">${guide.source.title}</a>`;
+
+    const cookingCardsContainer = document.getElementById("cooking-cards");
+    cookingCardsContainer.innerHTML = ""; // 清空內容
+
+    guide.dishes.forEach((dish) => {
+      const card = document.createElement("div");
+      card.className = "cooking-card";
+
+      card.innerHTML = `
+        <h3 class="event-name">${dish.name}</h3>
+        ${
+          dish.variants
+            ? `<p class="normal">種類</p><p>${dish.variants.join("<br>")}</p>`
+            : ""
+        }
+        ${
+          dish.recipeFrom
+            ? `<p class="normal">食譜來源</p><p>${dish.recipeFrom}</p>`
+            : ""
+        }
+        ${
+          dish.crops.length
+            ? `<p class="like">作物</p><p>${dish.crops.join(", ")}</p>`
+            : ""
+        }
+        ${
+          dish.ingredients.length
+            ? `<p class="like">材料</p><p>${dish.ingredients.join("<br>")}</p>`
+            : ""
+        }
+        ${dish.price ? `<p class="favorite">售價</p><p>${dish.price}</p>` : ""}
+        ${
+          dish.tips.length
+            ? `<p class="normal">小提醒</p><ul>${dish.tips
+                .map((tip) => `<li>${tip}</li>`)
+                .join("")}</ul>`
+            : ""
+        }
+      `;
+
+      cookingCardsContainer.appendChild(card);
+    });
+
+    document.getElementById("cooking-tips").innerHTML = guide.tips
+      .map(
+        (tip) => `
+        <div class="cooking-tip">
+          <h3>${tip.title}</h3>
+          <ul>${tip.items.map((item) => `<li>${item}</li>`).join("")}</ul>
+        </div>
+      `
+      )
+      .join("");
+  }
+
   // 儲存與讀取行事曆與礦物分布的快取值
   function saveToLocalStorage(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
@@ -297,10 +429,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 加載居民資料並初始化行事曆
   await loadResidents();
+  await loadFestivals();
   generateCalendar(currentYear, currentSeasonIndex);
 
   // 初始化結婚候補資訊
   loadMarriedResidents();
+
+  // 初始化賺錢料理
+  loadCookingGuide();
 
   // 修正左右按鈕功能
   const gallery = document.querySelector(".animal-gallery");
