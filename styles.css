@@ -276,6 +276,96 @@ h2::after {
   margin-top: 0;
 }
 
+/* 作物與風車加工表格 */
+.data-source {
+  font-size: 0.85rem;
+}
+
+.table-wrapper {
+  overflow-x: auto; /* 手機上表格可左右滑動 */
+  margin-bottom: 1.5rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #6c563f;
+  background-color: #fffae7;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid #dab275;
+  padding: 0.4rem 0.6rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.data-table th {
+  background-color: #ecd1a2;
+  position: sticky;
+  top: 0;
+}
+
+.data-table tbody tr:nth-child(even) {
+  background-color: #ecd1a240;
+}
+
+.data-table .crop-label {
+  text-align: left;
+  font-weight: bold;
+}
+
+.crop-image {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+}
+
+.season-yes {
+  color: #4a9c3e;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.note-row td {
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+#windmill-table td:nth-child(2) {
+  text-align: left;
+  white-space: normal; /* 材料欄位可換行 */
+}
+
+.item-note {
+  display: block;
+  font-size: 0.75rem;
+  color: #b0412b;
+}
+
+#windmill-tabs button[data-color="red"] {
+  background: #d9634c;
+}
+
+#windmill-tabs button[data-color="blue"] {
+  background: #4c8fd9;
+}
+
+#windmill-tabs button[data-color="yellow"] {
+  background: #d9b84c;
+}
+
+#windmill-tabs button {
+  opacity: 0.6;
+}
+
+#windmill-tabs button.active {
+  opacity: 1;
+  font-weight: bold;
+}
+
 /* 動物外觀 */
 .image-gallery {
   display: grid;

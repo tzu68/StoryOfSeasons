@@ -388,6 +388,123 @@ document.addEventListener("DOMContentLoaded", async () => {
       .join("");
   }
 
+  // 作物區塊功能
+  async function loadCrops() {
+    const response = await fetch("data/crops.txt");
+    const data = await response.json();
+
+    document.getElementById(
+      "crops-source"
+    ).innerHTML = `資料來源：<a href="${data.source.url}" target="_blank" rel="noopener">${data.source.title}</a>`;
+
+    // 有圖片就顯示圖片，沒有就顯示文字
+    const cropLabel = (crop) =>
+      crop.image
+        ? `<img src="images/crops/${crop.image}" alt="${crop.name}" title="${crop.name}" class="crop-image"><span class="crop-name">${crop.name}</span>`
+        : crop.name;
+
+    // 季節總覽：可種植的季節打勾
+    document.getElementById("crops-overview").innerHTML = `
+      <thead>
+        <tr><th>作物</th>${seasons.map((s) => `<th>${s}</th>`).join("")}</tr>
+      </thead>
+      <tbody>
+        ${data.crops
+          .map(
+            (crop) => `
+          <tr>
+            <td class="crop-label">${cropLabel(crop)}</td>
+            ${seasons
+              .map((s) =>
+                crop.seasons.includes(s)
+                  ? `<td class="season-yes">✓</td>`
+                  : `<td></td>`
+              )
+              .join("")}
+          </tr>`
+          )
+          .join("")}
+      </tbody>
+    `;
+
+    // 詳細資料
+    document.getElementById("crops-detail").innerHTML = `
+      <thead>
+        <tr><th>作物</th><th>類型</th><th>季節</th><th>天數</th><th>種子價</th><th>售價</th><th>稀有售價</th></tr>
+      </thead>
+      <tbody>
+        ${data.crops
+          .map(
+            (crop) => `
+          <tr>
+            <td class="crop-label">${cropLabel(crop)}</td>
+            <td>${crop.type}</td>
+            <td>${crop.seasons.join("")}</td>
+            <td>${crop.days}</td>
+            <td>${crop.seedPrice}</td>
+            <td>${crop.price}</td>
+            <td>${crop.rarePrice ?? "—"}</td>
+          </tr>${
+            crop.note
+              ? `<tr class="note-row"><td colspan="7">${crop.name}：${crop.note}</td></tr>`
+              : ""
+          }`
+          )
+          .join("")}
+      </tbody>
+    `;
+  }
+
+  // 風車加工區塊功能
+  async function loadWindmill() {
+    const response = await fetch("data/windmill.txt");
+    const data = await response.json();
+
+    document.getElementById(
+      "windmill-source"
+    ).innerHTML = `資料來源：<a href="${data.source.url}" target="_blank" rel="noopener">${data.source.title}</a>`;
+
+    const windmillTabs = document.getElementById("windmill-tabs");
+    const windmillTable = document.getElementById("windmill-table");
+
+    function showWindmill(index) {
+      saveToLocalStorage("windmillIndex", index);
+      windmillTabs.querySelectorAll("button").forEach((button, i) => {
+        button.classList.toggle("active", i === index);
+      });
+
+      windmillTable.innerHTML = `
+        <thead>
+          <tr><th>加工品</th><th>材料</th><th>售價</th></tr>
+        </thead>
+        <tbody>
+          ${data.windmills[index].items
+            .map(
+              (item) => `
+            <tr>
+              <td>${item.name}${
+                item.note ? `<span class="item-note">${item.note}</span>` : ""
+              }</td>
+              <td>${item.materials}</td>
+              <td>${item.price ?? "—"}</td>
+            </tr>`
+            )
+            .join("")}
+        </tbody>
+      `;
+    }
+
+    data.windmills.forEach((windmill, index) => {
+      const button = document.createElement("button");
+      button.textContent = windmill.name;
+      button.dataset.color = windmill.color;
+      button.addEventListener("click", () => showWindmill(index));
+      windmillTabs.appendChild(button);
+    });
+
+    showWindmill(getFromLocalStorage("windmillIndex", 0));
+  }
+
   // 儲存與讀取行事曆與礦物分布的快取值
   function saveToLocalStorage(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
@@ -438,6 +555,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 初始化賺錢料理
   loadCookingGuide();
 
+  // 初始化作物與風車加工
+  loadCrops();
+  loadWindmill();
+
   // 修正左右按鈕功能
   const gallery = document.querySelector(".animal-gallery");
   const leftBtn = document.querySelector(".scroll-btn.left");
@@ -472,7 +593,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 初始化礦物分布區塊
   if (checkMineralAccess()) {
-    const tabs = document.querySelectorAll(".tabs button");
+    const tabs = document.querySelectorAll("#minerals .tabs button");
     const mineralGallery = document.getElementById("mineral-gallery");
 
     tabs.forEach((tab) => {
@@ -491,7 +612,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 初始化礦物分布的預設值
     const currentMineralSeason = getFromLocalStorage("mineralSeason", "spring");
     const activeTab = document.querySelector(
-      `.tabs button[data-season="${currentMineralSeason}"]`
+      `#minerals .tabs button[data-season="${currentMineralSeason}"]`
     );
     if (activeTab) {
       activeTab.click();
