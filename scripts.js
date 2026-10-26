@@ -505,6 +505,83 @@ document.addEventListener("DOMContentLoaded", async () => {
     showWindmill(getFromLocalStorage("windmillIndex", 0));
   }
 
+  // 釣魚與捕蟲區塊功能
+  async function loadFishing() {
+    const response = await fetch("data/fishing.txt");
+    const data = await response.json();
+
+    document.getElementById(
+      "fishing-source"
+    ).innerHTML = `資料來源：<a href="${data.source.url}" target="_blank" rel="noopener">${data.source.title}</a>`;
+
+    const typeButtons = document.querySelectorAll("#fishing-type-tabs button");
+    const seasonButtons = document.querySelectorAll(
+      "#fishing-season-tabs button"
+    );
+    const fishingTable = document.getElementById("fishing-table");
+
+    let currentType = getFromLocalStorage("fishingType", "fish");
+    let currentSeason = getFromLocalStorage("fishingSeason", "");
+
+    function showFishing() {
+      saveToLocalStorage("fishingType", currentType);
+      saveToLocalStorage("fishingSeason", currentSeason);
+      typeButtons.forEach((button) =>
+        button.classList.toggle("active", button.dataset.type === currentType)
+      );
+      seasonButtons.forEach((button) =>
+        button.classList.toggle(
+          "active",
+          button.dataset.season === currentSeason
+        )
+      );
+
+      // 依季節篩選
+      const list = data[currentType].filter(
+        (item) => !currentSeason || item.seasons.includes(currentSeason)
+      );
+
+      fishingTable.innerHTML = `
+        <thead>
+          <tr><th>名稱</th><th>分類</th><th>售價</th><th>季節</th><th>地點</th><th>天氣</th><th>時間</th></tr>
+        </thead>
+        <tbody>
+          ${list
+            .map(
+              (item) => `
+            <tr>
+              <td class="crop-label">${item.name}</td>
+              <td>${item.category}</td>
+              <td>${item.price}</td>
+              <td>${item.seasons.join("")}</td>
+              <td>${item.places.length ? item.places.join("、") : "—"}</td>
+              <td>${item.weather}</td>
+              <td>${item.time}${
+                item.days ? `<span class="item-note">僅 ${item.days}</span>` : ""
+              }</td>
+            </tr>`
+            )
+            .join("")}
+        </tbody>
+      `;
+    }
+
+    typeButtons.forEach((button) =>
+      button.addEventListener("click", () => {
+        currentType = button.dataset.type;
+        showFishing();
+      })
+    );
+    seasonButtons.forEach((button) =>
+      button.addEventListener("click", () => {
+        currentSeason = button.dataset.season;
+        showFishing();
+      })
+    );
+
+    showFishing();
+  }
+
   // 儲存與讀取行事曆與礦物分布的快取值
   function saveToLocalStorage(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
@@ -558,6 +635,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 初始化作物與風車加工
   loadCrops();
   loadWindmill();
+
+  // 初始化釣魚與捕蟲
+  loadFishing();
 
   // 修正左右按鈕功能
   const gallery = document.querySelector(".animal-gallery");

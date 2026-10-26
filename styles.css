@@ -366,6 +366,23 @@ h2::after {
   font-weight: bold;
 }
 
+/* 釣魚與捕蟲 */
+#fishing-type-tabs button,
+#fishing-season-tabs button {
+  opacity: 0.6;
+}
+
+#fishing-type-tabs button.active,
+#fishing-season-tabs button.active {
+  opacity: 1;
+  font-weight: bold;
+}
+
+#fishing-table td:nth-child(5) {
+  white-space: normal; /* 地點欄位可換行 */
+  min-width: 10rem;
+}
+
 /* 動物外觀 */
 .image-gallery {
   display: grid;
