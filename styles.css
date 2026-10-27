@@ -282,66 +282,6 @@ h2::after {
   margin-top: -0.5rem;
 }
 
-/* 料理星數試算 */
-#star-calculator {
-  background-color: #ecd1a277;
-  border: 2px solid #dab275;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  color: #6c563f;
-  text-align: center;
-}
-
-#star-calculator h3 {
-  margin-top: 0;
-}
-
-.calc-group {
-  margin-bottom: 1rem;
-}
-
-.calc-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  margin: 0.25rem;
-}
-
-.calc-row select {
-  padding: 0.3rem 0.5rem;
-  border: 1px solid #dab275;
-  border-radius: 4px;
-  background-color: #fffae7;
-  color: #6c563f;
-  font-size: 1rem;
-}
-
-#star-calculator button {
-  background: #6bbf59;
-  color: #fff;
-  border: none;
-  padding: 0.3rem 0.75rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#star-calculator button.calc-remove {
-  background: #d9634c;
-  padding: 0.3rem 0.5rem;
-}
-
-#calc-result {
-  font-size: 1.4rem;
-  font-weight: bold;
-}
-
-#calc-steps {
-  display: inline-block;
-  text-align: left;
-  margin: 0;
-}
-
 /* 賺錢料理 */
 #cooking-cards,
 #cooking-tips {
