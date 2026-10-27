@@ -112,14 +112,44 @@ document.addEventListener("DOMContentLoaded", async () => {
             type: "birthday",
             picture: resident.picture,
             color: resident.color,
-            favorite: resident.favorite,
-            likes: resident.likes,
-            dislikes: resident.dislikes,
-            mostDisliked: resident.mostDisliked, // 新增最討厭的東西
+            resident,
           });
         }
       }
     });
+
+    return residents;
+  }
+
+  // 居民詳細資訊（行事曆與居民卡片共用）
+  function residentDetailHTML(resident, keyword = "") {
+    // 標示搜尋關鍵字，方便分辨是出現在喜歡還是討厭
+    const highlight = (text) =>
+      keyword ? text.split(keyword).join(`<mark>${keyword}</mark>`) : text;
+    const section = (className, title, content) =>
+      content
+        ? `<p class="${className}">${title}</p><p>${highlight(content)}</p>`
+        : "";
+
+    return `
+      ${section(
+        "normal",
+        "生日",
+        `${resident.birthday.season} ${resident.birthday.day}日`
+      )}
+      ${section("favorite", "最喜歡", resident.favorite)}
+      ${
+        resident.favoriteFrom
+          ? `<p class="detail-note">取得方式：${resident.favoriteFrom}</p>`
+          : ""
+      }
+      ${section("like", "喜歡", resident.likes.join(", "))}
+      ${section("dislike", "討厭", resident.dislikes.join(", "))}
+      ${section("dislike", "最討厭", resident.mostDisliked)}
+      ${section("normal", "主要地點", (resident.places || []).join("、"))}
+      ${section("normal", "外出時間", (resident.outings || []).join("<br>"))}
+      ${section("normal", "喜歡的顏色", resident.color)}
+    `;
   }
 
   // 讀取節日資料，依年份計算實際日期
@@ -256,27 +286,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <img src="images/people/${event.picture}" alt="${
                   event.name
                 }" style="width:100px;height:100px;border-radius:20px;display:block;margin:0 auto;"/>
-
-                            <div>
-                                <p class="favorite">最喜歡</p>
-                                <p>${event.favorite}</p>
-                            </div>
-                            <div>
-                                <p class="like">喜歡</p>
-                                <p>${event.likes.join(", ")}</p>
-                            </div>
-                            <div>
-                                <p class="dislike">討厭</p>
-                                <p>${event.dislikes.join(", ")}</p>
-                            </div>
-                            <div>
-                                <p class="dislike">最討厭</p>
-                                <p>${event.mostDisliked}</p>
-                            </div>
-                            <div>
-                                <p class="normal">喜歡的顏色</p>
-                                <p>${event.color}</p>
-                            </div>
+                            ${residentDetailHTML(event.resident)}
                         `
               )
               .join("");
@@ -291,40 +301,70 @@ document.addEventListener("DOMContentLoaded", async () => {
     calendarContainer.appendChild(calendarGrid);
   }
 
-  // 結婚候補資訊區塊功能
-  async function loadMarriedResidents() {
-    const response = await fetch("data/people.txt");
-    const residents = await response.json();
-
-    const marriedResidents = residents.filter((resident) => resident.married);
-
+  // 居民送禮資訊區塊功能
+  function loadResidentCards(residents) {
     const residentCardsContainer = document.getElementById("resident-cards");
-    residentCardsContainer.innerHTML = ""; // 清空內容
+    const filterButtons = document.querySelectorAll(
+      "#resident-filter-tabs button"
+    );
+    const searchInput = document.getElementById("resident-search");
 
-    marriedResidents.forEach((resident) => {
-      const card = document.createElement("div");
-      card.className = "resident-card";
-      card.setAttribute("data-color", resident.color); // 設置顏色屬性
+    let currentFilter = getFromLocalStorage("residentFilter", "all");
 
-      card.innerHTML = `
-        <img src="images/people/${resident.picture}" alt="${
-        resident.name
-      }" style="width:100px;height:100px;border-radius:30px;display:block;margin:0 auto;"/>
-        <h3 class="event-name">${resident.name}</h3>
-        <p class="normal">生日</p>
-        <p>${resident.birthday.season} ${resident.birthday.day}日</p>
-        <p class="favorite">最喜歡</p>
-        <p>${resident.favorite}</p>
-        <p class="like">喜歡</p>
-        <p>${resident.likes.join(", ")}</p>
-        <p class="dislike">討厭</p>
-        <p>${resident.dislikes.join(", ")}</p>
-        <p class="dislike">最討厭</p>
-        <p>${resident.mostDisliked}</p>
-      `;
+    function showResidents() {
+      saveToLocalStorage("residentFilter", currentFilter);
+      filterButtons.forEach((button) =>
+        button.classList.toggle(
+          "active",
+          button.dataset.filter === currentFilter
+        )
+      );
 
-      residentCardsContainer.appendChild(card);
-    });
+      // 依結婚候補篩選，再依關鍵字搜尋姓名與送禮資訊
+      const keyword = searchInput.value.trim();
+      const list = residents.filter((resident) => {
+        if (currentFilter === "married" && !resident.married) return false;
+        if (currentFilter === "others" && resident.married) return false;
+        if (!keyword) return true;
+        return [
+          resident.name,
+          resident.favorite,
+          resident.mostDisliked,
+          ...resident.likes,
+          ...resident.dislikes,
+        ].some((text) => text && text.includes(keyword));
+      });
+
+      residentCardsContainer.innerHTML = list.length
+        ? ""
+        : "<p>找不到符合的居民</p>"; // 清空內容
+
+      list.forEach((resident) => {
+        const card = document.createElement("div");
+        card.className = "resident-card";
+        card.setAttribute("data-color", resident.color); // 設置顏色屬性
+
+        card.innerHTML = `
+          <img src="images/people/${resident.picture}" alt="${
+          resident.name
+        }" style="width:100px;height:100px;border-radius:30px;display:block;margin:0 auto;"/>
+          <h3 class="event-name">${resident.name}</h3>
+          ${residentDetailHTML(resident, keyword)}
+        `;
+
+        residentCardsContainer.appendChild(card);
+      });
+    }
+
+    filterButtons.forEach((button) =>
+      button.addEventListener("click", () => {
+        currentFilter = button.dataset.filter;
+        showResidents();
+      })
+    );
+    searchInput.addEventListener("input", showResidents);
+
+    showResidents();
   }
 
   // 賺錢料理區塊功能
@@ -622,12 +662,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // 加載居民資料並初始化行事曆
-  await loadResidents();
+  const residents = await loadResidents();
   await loadFestivals();
   generateCalendar(currentYear, currentSeasonIndex);
 
-  // 初始化結婚候補資訊
-  loadMarriedResidents();
+  // 初始化居民送禮資訊
+  loadResidentCards(residents);
 
   // 初始化賺錢料理
   loadCookingGuide();

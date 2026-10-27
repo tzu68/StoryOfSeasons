@@ -17,7 +17,7 @@
         <nav>
             <ul>
                 <li><a href="#calendar">行事曆</a></li>
-                <li><a href="#residents">結婚候補資訊</a></li>
+                <li><a href="#residents">居民送禮</a></li>
                 <li><a href="#cooking">賺錢料理</a></li>
                 <li><a href="#crops">作物</a></li>
                 <li><a href="#windmill">風車加工</a></li>
@@ -57,10 +57,17 @@
             </div>
         </section>
 
-        <!-- 結婚候補資訊 -->
+        <!-- 居民送禮資訊 -->
         <section>
             <div class="content" id="residents">
-                <h2>結婚候補資訊</h2>
+                <h2>居民送禮資訊</h2>
+                <p class="data-source">地點、外出時間與最愛取得方式整理自「牧場物語 來吧!風之繁華市集 facebook 社團」遊戲指南</p>
+                <div class="tabs" id="resident-filter-tabs">
+                    <button data-filter="all">全部</button>
+                    <button data-filter="married">結婚候補</button>
+                    <button data-filter="others">其他居民</button>
+                </div>
+                <input type="search" id="resident-search" placeholder="搜尋姓名或禮物，例如：紅茶">
                 <div id="resident-cards">
                     <!-- JavaScript 生成居民卡片 -->
                 </div>

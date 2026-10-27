@@ -246,6 +246,42 @@ h2::after {
   box-shadow: 0 4px 8px rgba(255, 255, 147, 0.5);
 }
 
+/* 居民送禮篩選與搜尋 */
+#resident-filter-tabs button {
+  opacity: 0.6;
+}
+
+#resident-filter-tabs button.active {
+  opacity: 1;
+  font-weight: bold;
+}
+
+#resident-search {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #dab275;
+  border-radius: 0.5rem;
+  background-color: #fffae7;
+  color: #6c563f;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.resident-card mark {
+  background-color: #ffeb3b;
+  color: inherit;
+  padding: 0 0.1em;
+  border-radius: 3px;
+}
+
+.detail-note {
+  font-size: 0.8rem;
+  margin-top: -0.5rem;
+}
+
 /* 賺錢料理 */
 #cooking-cards,
 #cooking-tips {
