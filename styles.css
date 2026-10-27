@@ -365,6 +365,19 @@ h2::after {
   font-size: 1.1rem;
 }
 
+/* 日常料理 */
+.daily-table td:nth-child(3),
+.daily-table td:nth-child(4) {
+  text-align: left;
+  white-space: normal; /* 材料與取得方式可換行 */
+  min-width: 10rem;
+}
+
+.ingredient-season {
+  font-size: 0.8rem;
+  color: #8a7a5f;
+}
+
 /* 選到的季節欄位 */
 .data-table .season-current {
   background-color: #6bbf5933;

@@ -428,6 +428,52 @@ document.addEventListener("DOMContentLoaded", async () => {
       .join("");
   }
 
+  // 日常料理區塊功能
+  async function loadDailyDishes() {
+    const response = await fetch("data/daily.txt");
+    const data = await response.json();
+
+    document.getElementById("daily-source").textContent = data.source;
+
+    document.getElementById("daily-categories").innerHTML = data.categories
+      .map(
+        (category) => `
+        <h3>${category.title}</h3>
+        ${category.note ? `<p class="data-source">${category.note}</p>` : ""}
+        <div class="table-wrapper">
+          <table class="data-table daily-table">
+            <thead>
+              <tr><th>料理</th><th>效果</th><th>材料（季節）</th><th>取得方式</th></tr>
+            </thead>
+            <tbody>
+              ${category.dishes
+                .map(
+                  (dish) => `
+                <tr>
+                  <td class="crop-label">${dish.name}</td>
+                  <td>${
+                    [dish.effect, dish.level ? `Lv.${dish.level}` : ""]
+                      .filter(Boolean)
+                      .join(" ") || "—"
+                  }</td>
+                  <td>${dish.ingredients
+                    .map(
+                      (ingredient) =>
+                        `${ingredient.name}<span class="ingredient-season">（${ingredient.season}）</span>`
+                    )
+                    .join("<br>")}</td>
+                  <td>${dish.from}</td>
+                </tr>`
+                )
+                .join("")}
+            </tbody>
+          </table>
+        </div>
+      `
+      )
+      .join("");
+  }
+
   // 作物區塊功能
   async function loadCrops() {
     const response = await fetch("data/crops.txt");
@@ -703,6 +749,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 初始化賺錢料理
   loadCookingGuide();
+
+  // 初始化日常料理
+  loadDailyDishes();
 
   // 初始化作物與風車加工
   loadCrops();

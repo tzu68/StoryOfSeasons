@@ -1,0 +1,207 @@
+{
+  "source": "整理自「牧場物語 來吧!風之繁華市集 facebook 社團」遊戲指南（食譜圖鑑）",
+  "categories": [
+    {
+      "title": "澆水時稀有作物出現率 UP",
+      "dishes": [
+        {
+          "name": "番茄起司沙拉",
+          "level": 4,
+          "ingredients": [
+            { "name": "番茄", "season": "夏秋" },
+            { "name": "橄欖油", "season": "橄欖：秋（果樹），藍色風車" },
+            { "name": "鹽", "season": "岩鹽，紅色風車" },
+            { "name": "起司類", "season": "全年（畜產）" }
+          ],
+          "from": "完成埃里西 6 心委託「想加入新作的作物」"
+        },
+        {
+          "name": "生魚沙拉",
+          "level": 3,
+          "ingredients": [
+            { "name": "酪梨", "season": "春（果樹）" },
+            { "name": "鮭魚", "season": "秋冬（山上游）" },
+            { "name": "醬油", "season": "豆子：春夏秋，紅色風車" }
+          ],
+          "from": "市集露天咖啡館（地區級）"
+        },
+        {
+          "name": "馬鈴薯泥",
+          "level": 2,
+          "ingredients": [
+            { "name": "奶油類", "season": "全年（畜產）" },
+            { "name": "馬鈴薯", "season": "春夏冬" }
+          ],
+          "from": "小鎮咖啡館（村級）"
+        },
+        {
+          "name": "烤玉米",
+          "level": 2,
+          "ingredients": [
+            { "name": "玉米", "season": "夏" },
+            { "name": "醬油", "season": "豆子：春夏秋，紅色風車" },
+            { "name": "砂糖", "season": "甘蔗，紅色風車" }
+          ],
+          "from": "市集菲利克斯攤位"
+        },
+        {
+          "name": "洋蔥沙拉",
+          "level": 1,
+          "ingredients": [{ "name": "洋蔥", "season": "春夏" }],
+          "from": "小鎮咖啡館（村級）"
+        },
+        {
+          "name": "紅茶",
+          "level": 1,
+          "ingredients": [{ "name": "紅茶罐", "season": "秋茶葉×2，黃色風車" }],
+          "from": "小鎮咖啡館（村級）"
+        }
+      ]
+    },
+    {
+      "title": "撫摸時稀有副產品率 UP",
+      "dishes": [
+        {
+          "name": "起司大蛋糕",
+          "level": 4,
+          "ingredients": [
+            { "name": "小麥粉", "season": "小麥：春夏秋，紅色風車" },
+            { "name": "頂級雞蛋／頂級烏骨雞蛋", "season": "全年（畜產）" },
+            { "name": "頂級水牛奶", "season": "全年（畜產）" },
+            { "name": "起司類", "season": "全年（畜產）" }
+          ],
+          "from": "市集奈莉妮餐廳"
+        },
+        {
+          "name": "巧克力大蛋糕",
+          "level": 4,
+          "ingredients": [
+            { "name": "小麥粉", "season": "小麥：春夏秋，紅色風車" },
+            { "name": "頂級雞蛋／頂級烏骨雞蛋", "season": "全年（畜產）" },
+            { "name": "頂級牛奶／頂級水牛奶", "season": "全年（畜產）" },
+            { "name": "巧克力", "season": "可可：夏（果樹），藍色風車" }
+          ],
+          "from": "料理祭甜點類獲得冠軍"
+        },
+        {
+          "name": "大蛋糕",
+          "level": 3,
+          "ingredients": [
+            { "name": "小麥粉", "season": "小麥：春夏秋，紅色風車" },
+            { "name": "頂級雞蛋／頂級烏骨雞蛋", "season": "全年（畜產）" },
+            { "name": "頂級牛奶／頂級水牛奶", "season": "全年（畜產）" },
+            { "name": "草莓", "season": "春" }
+          ],
+          "from": "市集奈莉妮餐廳"
+        },
+        {
+          "name": "栗子蛋糕",
+          "level": 3,
+          "ingredients": [
+            { "name": "小麥粉", "season": "小麥：春夏秋，紅色風車" },
+            { "name": "雞蛋類", "season": "全年（畜產）" },
+            { "name": "牛奶類", "season": "全年（畜產）" },
+            { "name": "栗子罐頭", "season": "栗子，紅色風車" }
+          ],
+          "from": "市集奈莉妮餐廳"
+        },
+        {
+          "name": "蘋果派",
+          "level": 3,
+          "ingredients": [
+            { "name": "小麥粉", "season": "小麥：春夏秋，紅色風車" },
+            { "name": "奶油類", "season": "全年（畜產）" },
+            { "name": "雞蛋類", "season": "全年（畜產）" },
+            { "name": "蘋果", "season": "秋冬（果樹）" }
+          ],
+          "from": "完成克蕾兒 6 心委託"
+        }
+      ]
+    },
+    {
+      "title": "採集時獲取數量翻倍",
+      "dishes": [
+        {
+          "name": "雞蛋起司麵包船（起司烤蛋餅）",
+          "level": null,
+          "ingredients": [
+            { "name": "小麥粉", "season": "小麥：春夏秋，紅色風車" },
+            { "name": "頂級起司", "season": "全年（畜產）" },
+            { "name": "頂級優格", "season": "全年（畜產）" },
+            { "name": "頂級奶油", "season": "全年（畜產）" }
+          ],
+          "from": "完成舒密特 7 心委託"
+        }
+      ]
+    },
+    {
+      "title": "補體力（GUTS）",
+      "note": "指南沒有列出回復量，以下挑選有附加效果或材料好取得的料理",
+      "dishes": [
+        {
+          "name": "通心粉沙拉",
+          "effect": "GUTS 消耗降低",
+          "level": 4,
+          "ingredients": [
+            { "name": "義大利麵", "season": "小麥粉＋雞蛋" },
+            { "name": "小黃瓜", "season": "夏秋" },
+            { "name": "胡蘿蔔", "season": "秋冬" },
+            { "name": "蛋黃醬類", "season": "全年（畜產）" }
+          ],
+          "from": "市集奈莉妮餐廳"
+        },
+        {
+          "name": "奶汁羊肚菌",
+          "effect": "最大 GUTS 提升",
+          "level": 4,
+          "ingredients": [
+            { "name": "羊肚菌", "season": "菇類" },
+            { "name": "水牛奶類", "season": "全年（畜產）" },
+            { "name": "海膽", "season": "市集購買" },
+            { "name": "奶油類", "season": "全年（畜產）" }
+          ],
+          "from": "市集奈莉妮餐廳"
+        },
+        {
+          "name": "鹹派",
+          "effect": "最大 GUTS 提升",
+          "level": 4,
+          "ingredients": [
+            { "name": "小麥粉", "season": "小麥：春夏秋，紅色風車" },
+            { "name": "南瓜", "season": "夏" },
+            { "name": "菠菜", "season": "秋" },
+            { "name": "菇類", "season": "香菇、蘑菇、松茸等擇一" }
+          ],
+          "from": "完成蜜娜 6 心委託"
+        },
+        {
+          "name": "炒蔬菜",
+          "effect": "最大 GUTS 提升",
+          "level": 3,
+          "ingredients": [
+            { "name": "高麗菜", "season": "春冬" },
+            { "name": "白菜", "season": "冬" }
+          ],
+          "from": "市集克蕾兒食堂（國家級）"
+        },
+        {
+          "name": "高麗菜捲",
+          "effect": "最大 GUTS 提升",
+          "level": 3,
+          "ingredients": [
+            { "name": "高麗菜", "season": "春冬" },
+            { "name": "胡蘿蔔", "season": "秋冬" }
+          ],
+          "from": "完成梅莉妮 4 心委託"
+        },
+        {
+          "name": "水煮蛋",
+          "effect": "最大 GUTS 提升",
+          "level": 1,
+          "ingredients": [{ "name": "雞蛋類", "season": "全年（畜產）" }],
+          "from": "初始解鎖"
+        }
+      ]
+    }
+  ]
+}
