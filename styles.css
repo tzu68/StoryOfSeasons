@@ -425,6 +425,11 @@ h2::after {
   font-size: 1.1rem;
 }
 
+/* 選到的季節欄位 */
+.data-table .season-current {
+  background-color: #6bbf5933;
+}
+
 .note-row td {
   text-align: left;
   font-size: 0.8rem;
@@ -464,12 +469,14 @@ h2::after {
 
 /* 釣魚與捕蟲 */
 #fishing-type-tabs button,
-#fishing-season-tabs button {
+#fishing-season-tabs button,
+#crops-season-tabs button {
   opacity: 0.6;
 }
 
 #fishing-type-tabs button.active,
-#fishing-season-tabs button.active {
+#fishing-season-tabs button.active,
+#crops-season-tabs button.active {
   opacity: 1;
   font-weight: bold;
 }

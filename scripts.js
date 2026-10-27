@@ -530,56 +530,88 @@ document.addEventListener("DOMContentLoaded", async () => {
         ? `<img src="images/crops/${crop.image}" alt="${crop.name}" title="${crop.name}" class="crop-image"><span class="crop-name">${crop.name}</span>`
         : crop.name;
 
-    // 季節總覽：可種植的季節打勾
-    document.getElementById("crops-overview").innerHTML = `
-      <thead>
-        <tr><th>作物</th>${seasons.map((s) => `<th>${s}</th>`).join("")}</tr>
-      </thead>
-      <tbody>
-        ${data.crops
-          .map(
-            (crop) => `
-          <tr>
-            <td class="crop-label">${cropLabel(crop)}</td>
-            ${seasons
-              .map((s) =>
-                crop.seasons.includes(s)
-                  ? `<td class="season-yes">✓</td>`
-                  : `<td></td>`
-              )
-              .join("")}
-          </tr>`
-          )
-          .join("")}
-      </tbody>
-    `;
+    const seasonButtons = document.querySelectorAll("#crops-season-tabs button");
+    let currentSeason = getFromLocalStorage("cropsSeason", "");
 
-    // 詳細資料
-    document.getElementById("crops-detail").innerHTML = `
-      <thead>
-        <tr><th>作物</th><th>類型</th><th>季節</th><th>天數</th><th>種子價</th><th>售價</th><th>稀有售價</th></tr>
-      </thead>
-      <tbody>
-        ${data.crops
-          .map(
-            (crop) => `
-          <tr>
-            <td class="crop-label">${cropLabel(crop)}</td>
-            <td>${crop.type}</td>
-            <td>${crop.seasons.join("")}</td>
-            <td>${crop.days}</td>
-            <td>${crop.seedPrice}</td>
-            <td>${crop.price}</td>
-            <td>${crop.rarePrice ?? "—"}</td>
-          </tr>${
-            crop.note
-              ? `<tr class="note-row"><td colspan="7">${crop.name}：${crop.note}</td></tr>`
-              : ""
-          }`
-          )
-          .join("")}
-      </tbody>
-    `;
+    function showCrops() {
+      saveToLocalStorage("cropsSeason", currentSeason);
+      seasonButtons.forEach((button) =>
+        button.classList.toggle(
+          "active",
+          button.dataset.season === currentSeason
+        )
+      );
+
+      // 依季節篩選
+      const crops = data.crops.filter(
+        (crop) => !currentSeason || crop.seasons.includes(currentSeason)
+      );
+      const seasonClass = (s) => (s === currentSeason ? ` class="season-current"` : "");
+
+      // 季節總覽：可種植的季節打勾
+      document.getElementById("crops-overview").innerHTML = `
+        <thead>
+          <tr><th>作物</th>${seasons
+            .map((s) => `<th${seasonClass(s)}>${s}</th>`)
+            .join("")}</tr>
+        </thead>
+        <tbody>
+          ${crops
+            .map(
+              (crop) => `
+            <tr>
+              <td class="crop-label">${cropLabel(crop)}</td>
+              ${seasons
+                .map((s) =>
+                  crop.seasons.includes(s)
+                    ? `<td class="season-yes${
+                        s === currentSeason ? " season-current" : ""
+                      }">✓</td>`
+                    : `<td${seasonClass(s)}></td>`
+                )
+                .join("")}
+            </tr>`
+            )
+            .join("")}
+        </tbody>
+      `;
+
+      // 詳細資料
+      document.getElementById("crops-detail").innerHTML = `
+        <thead>
+          <tr><th>作物</th><th>類型</th><th>季節</th><th>天數</th><th>種子價</th><th>售價</th><th>稀有售價</th></tr>
+        </thead>
+        <tbody>
+          ${crops
+            .map(
+              (crop) => `
+            <tr>
+              <td class="crop-label">${cropLabel(crop)}</td>
+              <td>${crop.type}</td>
+              <td>${crop.seasons.join("")}</td>
+              <td>${crop.days}</td>
+              <td>${crop.seedPrice}</td>
+              <td>${crop.price}</td>
+              <td>${crop.rarePrice ?? "—"}</td>
+            </tr>${
+              crop.note
+                ? `<tr class="note-row"><td colspan="7">${crop.name}：${crop.note}</td></tr>`
+                : ""
+            }`
+            )
+            .join("")}
+        </tbody>
+      `;
+    }
+
+    seasonButtons.forEach((button) =>
+      button.addEventListener("click", () => {
+        currentSeason = button.dataset.season;
+        showCrops();
+      })
+    );
+
+    showCrops();
   }
 
   // 風車加工區塊功能
