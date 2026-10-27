@@ -367,6 +367,93 @@ document.addEventListener("DOMContentLoaded", async () => {
     showResidents();
   }
 
+  // 料理星數試算
+  // 星數 = 主材料平均 + 每個巧思的加成（依玩家實測）
+  function setupStarCalculator() {
+    const mainsContainer = document.getElementById("calc-mains");
+    const extrasContainer = document.getElementById("calc-extras");
+    const result = document.getElementById("calc-result");
+    const steps = document.getElementById("calc-steps");
+
+    const starOptions = (includeNone) =>
+      (includeNone ? `<option value="">無星級</option>` : "") +
+      Array.from({ length: 14 }, (_, i) => (i + 1) / 2)
+        .map((star) => `<option value="${star}">${star} 星</option>`)
+        .join("");
+
+    function addRow(container, includeNone, defaultValue) {
+      const row = document.createElement("div");
+      row.className = "calc-row";
+      row.innerHTML = `
+        <select>${starOptions(includeNone)}</select>
+        <button type="button" class="calc-remove" title="移除">✕</button>
+      `;
+      row.querySelector("select").value = defaultValue;
+      row.querySelector("select").addEventListener("change", calculate);
+      row.querySelector(".calc-remove").addEventListener("click", () => {
+        row.remove();
+        calculate();
+      });
+      container.appendChild(row);
+      calculate();
+    }
+
+    // 平均不是 0.5 的倍數時往上取（實測 3.5、5 => 4.5）
+    const ceilToHalf = (value) => Math.ceil(value * 2) / 2;
+
+    function calculate() {
+      const mains = [...mainsContainer.querySelectorAll("select")].map(
+        (select) => parseFloat(select.value)
+      );
+      const extras = [...extrasContainer.querySelectorAll("select")].map(
+        (select) => (select.value === "" ? null : parseFloat(select.value))
+      );
+
+      if (mains.length === 0) {
+        result.textContent = "請至少加入一個主材料";
+        steps.innerHTML = "";
+        return;
+      }
+
+      const base = ceilToHalf(mains.reduce((a, b) => a + b, 0) / mains.length);
+      const lines = [`主材料平均：${base} 星`];
+
+      let total = base;
+      extras.forEach((star, i) => {
+        let bonus;
+        if (star === null) {
+          bonus = 0.5;
+          lines.push(`巧思 ${i + 1}（無星級）：+0.5`);
+        } else {
+          // 比平均高 2.5 星以上 +1.5、與平均相同或較高 +1、比平均低 +0.5
+          const diff = star - base;
+          bonus = diff >= 2.5 ? 1.5 : diff >= 0 ? 1 : 0.5;
+          lines.push(
+            `巧思 ${i + 1}（${star} 星，${
+              diff === 0 ? "與平均相同" : `比平均${diff > 0 ? "高" : "低"} ${Math.abs(diff)} 星`
+            }）：+${bonus}`
+          );
+        }
+        total += bonus;
+      });
+
+      if (total > 7) lines.push(`超過上限，以 7 星計`);
+      result.textContent = `料理星數：${Math.min(total, 7)} 星`;
+      steps.innerHTML = lines.map((line) => `<li>${line}</li>`).join("");
+    }
+
+    document
+      .getElementById("calc-add-main")
+      .addEventListener("click", () => addRow(mainsContainer, false, "3"));
+    document
+      .getElementById("calc-add-extra")
+      .addEventListener("click", () => addRow(extrasContainer, true, ""));
+
+    // 預設兩個主材料
+    addRow(mainsContainer, false, "3.5");
+    addRow(mainsContainer, false, "2.5");
+  }
+
   // 賺錢料理區塊功能
   async function loadCookingGuide() {
     const response = await fetch("data/cooking.txt");
@@ -671,6 +758,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 初始化賺錢料理
   loadCookingGuide();
+  setupStarCalculator();
 
   // 初始化作物與風車加工
   loadCrops();

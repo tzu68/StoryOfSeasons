@@ -78,6 +78,22 @@
         <section>
             <div class="content" id="cooking">
                 <h2>賺錢料理</h2>
+                <div id="star-calculator">
+                    <h3>料理星數試算</h3>
+                    <div class="calc-group">
+                        <p class="normal">主材料</p>
+                        <div id="calc-mains"></div>
+                        <button type="button" id="calc-add-main">＋ 主材料</button>
+                    </div>
+                    <div class="calc-group">
+                        <p class="normal">巧思（創新欄）</p>
+                        <div id="calc-extras"></div>
+                        <button type="button" id="calc-add-extra">＋ 巧思</button>
+                    </div>
+                    <p id="calc-result"></p>
+                    <ul id="calc-steps"></ul>
+                    <p class="data-source">公式：主材料平均（往上取到 0.5 星）＋每個巧思的加成（無星級或比主材料平均低 +0.5；與平均相同或較高 +1；比平均高 2.5 星以上 +1.5），上限 7 星。依玩家實測整理。</p>
+                </div>
                 <p id="cooking-source"></p>
                 <div id="cooking-cards">
                     <!-- JavaScript 生成料理卡片 -->
