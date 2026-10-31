@@ -481,7 +481,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById(
       "crops-source"
-    ).innerHTML = `資料來源：<a href="${data.source.url}" target="_blank" rel="noopener">${data.source.title}</a>`;
+    ).innerHTML = `資料來源：<a href="${data.source.url}" target="_blank" rel="noopener">${data.source.title}</a><br>${data.pdfSource}（花卉澆兩次水天數不變，種子價未收錄）`;
 
     // 有圖片就顯示圖片，沒有就顯示文字
     const cropLabel = (crop) =>
@@ -538,7 +538,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       // 詳細資料
       document.getElementById("crops-detail").innerHTML = `
         <thead>
-          <tr><th>作物</th><th>類型</th><th>季節</th><th>天數</th><th>種子價</th><th>售價</th><th>稀有售價</th></tr>
+          <tr><th>作物</th><th>類型</th><th>季節</th><th>天數</th><th>收穫數</th><th>種子價</th><th>售價</th><th>稀有售價</th></tr>
         </thead>
         <tbody>
           ${crops
@@ -549,12 +549,13 @@ document.addEventListener("DOMContentLoaded", async () => {
               <td>${crop.type}</td>
               <td>${crop.seasons.join("")}</td>
               <td>${crop.days}</td>
-              <td>${crop.seedPrice}</td>
+              <td>${crop.yield}</td>
+              <td>${crop.seedPrice ?? "—"}</td>
               <td>${crop.price}</td>
               <td>${crop.rarePrice ?? "—"}</td>
             </tr>${
               crop.note
-                ? `<tr class="note-row"><td colspan="7">${crop.name}：${crop.note}</td></tr>`
+                ? `<tr class="note-row"><td colspan="8">${crop.name}：${crop.note}</td></tr>`
                 : ""
             }`
             )
