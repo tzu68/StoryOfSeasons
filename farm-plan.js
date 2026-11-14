@@ -31,7 +31,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (e) {}
   }
 
-  const taskKey = (s, d, j) => `farmPlanTask-${s}-${d}-${j}`;
+  // 方案改版時換掉前綴，避免舊的勾選對到新的工作項目
+  const taskKey = (s, d, j) => `farmPlanV2-${s}-${d}-${j}`;
 
   // 收成量：格數 × 每格期望值，稀有品以 1/3 計算
   function amount(cropName, n) {
@@ -119,7 +120,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           <ul>${plan.yields.map((y) => `<li>${y}</li>`).join("")}</ul>
         </div>
         <div class="cooking-card">
-          <h3>${plan.name}季料理（收入${plan.income}）</h3>
+          <h3>${plan.name}季料理（7 星收入${plan.income}）</h3>
+          <p class="item-note">${plan.incomeDetail}</p>
           <ul>
             ${plan.dishes
               .map(
@@ -279,7 +281,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("plan-recipes").innerHTML = `
     <thead>
-      <tr><th>料理</th><th>售價</th><th>材料</th></tr>
+      <tr><th>料理</th><th>一般價（7 星 ×3）</th><th>材料</th></tr>
     </thead>
     <tbody>
       ${data.recipes
