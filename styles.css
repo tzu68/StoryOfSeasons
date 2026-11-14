@@ -824,3 +824,8 @@ footer {
     padding: 0.6rem 1rem;
   }
 }
+
+/* 前提與結論：文字較多，一張卡片佔一整列 */
+.plan-cards.single-column {
+  grid-template-columns: 1fr;
+}

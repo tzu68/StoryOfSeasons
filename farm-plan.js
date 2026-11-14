@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 前提與結論、料理表
   document.getElementById("plan-basis").innerHTML = `
-    <div class="plan-cards">
+    <div class="plan-cards single-column">
       <div class="cooking-tip">
         <h3>前提條件</h3>
         <ul>${data.conditions.map((c) => `<li>${c}</li>`).join("")}</ul>
