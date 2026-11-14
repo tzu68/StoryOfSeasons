@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>種植方案 - 遊戲小幫手</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icon.png">
+</head>
+
+<body>
+    <header>
+        <h1>遊戲小幫手</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">回首頁</a></li>
+                <li><a href="#plan">季節配置</a></li>
+                <li><a href="#schedule">逐日工作</a></li>
+                <li><a href="#basis">前提與結論</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 季節配置 -->
+        <section>
+            <div class="content" id="plan">
+                <h2>種植方案</h2>
+                <p class="data-source">以頂級咖哩為主力的賺錢方案，數字依下方「前提條件」計算，畜產數量不同時請自行調整。</p>
+                <div class="tabs" id="plan-season-tabs">
+                    <button data-season="0">春</button>
+                    <button data-season="1">夏</button>
+                    <button data-season="2">秋</button>
+                    <button data-season="3">冬</button>
+                </div>
+                <div id="plan-summary">
+                    <!-- JavaScript 生成季節配置 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 逐日工作 -->
+        <section>
+            <div class="content" id="schedule">
+                <h2>逐日工作</h2>
+                <p class="data-source">勾選紀錄只存在這台裝置的瀏覽器裡。季節可用上方分頁切換。</p>
+                <div class="schedule-tools">
+                    <label for="schedule-today">今天是第 <input id="schedule-today" type="number" min="1" max="31" inputmode="numeric"> 天</label>
+                    <button type="button" id="schedule-jump">跳到今天</button>
+                    <span id="schedule-progress"></span>
+                    <button type="button" id="schedule-reset">清除本季勾選</button>
+                </div>
+                <div id="schedule-days">
+                    <!-- JavaScript 生成 31 天工作卡片 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 前提與結論 -->
+        <section>
+            <div class="content" id="basis">
+                <h2>前提與結論</h2>
+                <div id="plan-basis">
+                    <!-- JavaScript 生成前提條件與結論 -->
+                </div>
+                <h3>料理材料與售價</h3>
+                <div class="table-wrapper">
+                    <table class="data-table" id="plan-recipes">
+                        <!-- JavaScript 生成料理表 -->
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 牧場物語 風之市集</p>
+    </footer>
+
+    <script src="farm-plan.js"></script>
+</body>
+
+</html>

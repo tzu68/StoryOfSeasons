@@ -616,3 +616,139 @@ footer {
   border-color: #666;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
 }
+
+/* 種植方案頁 */
+#plan-season-tabs button {
+  opacity: 0.6;
+}
+
+#plan-season-tabs button.active {
+  opacity: 1;
+  font-weight: bold;
+}
+
+.plan-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.plan-cards h3 {
+  margin-top: 0;
+}
+
+.plan-cards .item-note {
+  display: block;
+}
+
+.recipe-ingredients {
+  text-align: left !important;
+  white-space: normal !important;
+}
+
+.schedule-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  color: #6c563f;
+}
+
+.schedule-tools input {
+  width: 4em;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid #dab275;
+  border-radius: 5px;
+  font: inherit;
+}
+
+.schedule-tools button {
+  background: #6bbf59;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.schedule-tools button:hover {
+  background: #4a9c3e;
+}
+
+#schedule-days {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.75rem;
+}
+
+.schedule-day {
+  background-color: #ecd1a240;
+  border: 2px solid #dab275;
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  color: #6c563f;
+  scroll-margin-top: 8rem;
+}
+
+.schedule-day.quiet {
+  opacity: 0.7;
+}
+
+.schedule-day.today {
+  background-color: #fff1b8;
+  border-color: #e0a800;
+}
+
+.schedule-day-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.3rem;
+}
+
+.schedule-day-title span,
+.schedule-water,
+.schedule-task small {
+  font-size: 0.8rem;
+}
+
+.schedule-task {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 0.5rem;
+  align-items: start;
+  padding: 0.25rem 0;
+  border-top: 1px dashed #dab275;
+  cursor: pointer;
+}
+
+.schedule-task small {
+  display: block;
+}
+
+.schedule-task.done > span:last-child {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.area-tag {
+  font-size: 0.75rem;
+  padding: 0 0.4rem;
+  border-radius: 4px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.area-tag.gh {
+  background-color: #4a9c3e;
+}
+
+.area-tag.field {
+  background-color: #a0743a;
+}
+
+.area-tag.log {
+  background-color: #7a5aa0;
+}
