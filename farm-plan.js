@@ -134,6 +134,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             <li>直接賣：${plan.sell}</li>
           </ul>
         </div>
+        <div class="cooking-card">
+          <h3>${plan.name}季畜產加工</h3>
+          <p class="item-note">${plan.livestock.weekly}</p>
+          <ul>${plan.livestock.items.map((i) => `<li>${i}</li>`).join("")}</ul>
+        </div>
       </div>
     `;
   }
@@ -260,6 +265,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       <div class="cooking-tip">
         <h3>前提條件</h3>
         <ul>${data.conditions.map((c) => `<li>${c}</li>`).join("")}</ul>
+      </div>
+      <div class="cooking-tip">
+        <h3>畜產每季產量</h3>
+        <ul>${data.livestockProduction.map((c) => `<li>${c}</li>`).join("")}</ul>
+      </div>
+      <div class="cooking-tip">
+        <h3>風車產能有限時的優先順序</h3>
+        <ul>${data.windmillPriority.map((c) => `<li>${c}</li>`).join("")}</ul>
       </div>
       <div class="cooking-tip">
         <h3>結論</h3>
