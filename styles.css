@@ -752,3 +752,75 @@ footer {
 .area-tag.log {
   background-color: #7a5aa0;
 }
+
+/* 手機版漢堡選單 */
+.nav-toggle {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 0.75rem 1rem;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  .nav-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    background: #6c563f;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .nav-toggle span {
+    display: block;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  /* 展開時三條線變成 X */
+  .nav-open .nav-toggle span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .nav-open .nav-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-open .nav-toggle span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  nav {
+    display: none;
+  }
+
+  .nav-open nav {
+    display: block;
+    margin-top: 0.75rem;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  nav ul li a {
+    display: block;
+    padding: 0.6rem 1rem;
+  }
+}

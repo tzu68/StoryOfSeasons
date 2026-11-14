@@ -14,7 +14,10 @@
 <body>
     <header>
         <h1>遊戲小幫手</h1>
-        <nav>
+        <button type="button" class="nav-toggle" aria-label="開啟選單" aria-expanded="false" aria-controls="site-nav">
+            <span></span><span></span><span></span>
+        </button>
+        <nav id="site-nav">
             <ul>
                 <li><a href="#calendar">行事曆</a></li>
                 <li><a href="#residents">居民送禮</a></li>
@@ -192,6 +195,7 @@
         <p>© 2025 牧場物語 風之市集</p>
     </footer>
 
+    <script src="nav.js"></script>
     <script src="scripts.js"></script>
 </body>
 

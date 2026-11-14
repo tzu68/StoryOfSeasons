@@ -13,7 +13,10 @@
 <body>
     <header>
         <h1>遊戲小幫手</h1>
-        <nav>
+        <button type="button" class="nav-toggle" aria-label="開啟選單" aria-expanded="false" aria-controls="site-nav">
+            <span></span><span></span><span></span>
+        </button>
+        <nav id="site-nav">
             <ul>
                 <li><a href="index.html">回首頁</a></li>
                 <li><a href="#plan">季節配置</a></li>
@@ -79,6 +82,7 @@
         <p>© 2025 牧場物語 風之市集</p>
     </footer>
 
+    <script src="nav.js"></script>
     <script src="farm-plan.js"></script>
 </body>
 
