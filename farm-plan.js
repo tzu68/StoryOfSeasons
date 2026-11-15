@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // 方案改版時換掉前綴，避免舊的勾選對到新的工作項目
-  const taskKey = (s, d, j) => `farmPlanV2-${s}-${d}-${j}`;
+  const taskKey = (s, d, j) => `farmPlanV3-${s}-${d}-${j}`;
 
   // 收成量：格數 × 每格期望值，稀有品以 1/3 計算
   function amount(cropName, n) {
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <li>外田：${list(plan.field)}</li>
             ${plan.spare ? `<li>${plan.spare}</li>` : ""}
             <li>種菇木 ${data.mushroom.logs} 個：${data.mushroom.crop}</li>
-            <li>倉庫：${plan.storage}</li>
+            ${plan.storage ? `<li>倉庫：${plan.storage}</li>` : ""}
           </ul>
         </div>
         <div class="cooking-card">
@@ -294,7 +294,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("plan-recipes").innerHTML = `
     <thead>
-      <tr><th>料理</th><th>一般價（7 星 ×3）</th><th>材料</th></tr>
+      <tr><th>料理</th><th>7 星售價</th><th>材料</th></tr>
     </thead>
     <tbody>
       ${data.recipes
@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           (r) => `
         <tr>
           <td class="crop-label">${r.name}</td>
-          <td>${r.price.toLocaleString()}</td>
+          <td>${typeof r.price === "number" ? r.price.toLocaleString() : r.price}</td>
           <td class="recipe-ingredients">${r.ingredients}</td>
         </tr>`
         )
