@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // 方案改版時換掉前綴，避免舊的勾選對到新的工作項目
-  const taskKey = (s, d, j) => `farmPlanV3-${s}-${d}-${j}`;
+  const taskKey = (s, d, j) => `farmPlanV4-${s}-${d}-${j}`;
 
   // 收成量：格數 × 每格期望值，稀有品以 1/3 計算
   function amount(cropName, n) {
@@ -44,26 +44,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
   }
 
-  // 第 1 天種下，之後每隔生長天數收成並補種；季末來不及再收的就改種 then 或空著
+  // 第 s 天種下（同作物分組錯開，每天播種不超過 54 格），之後每隔生長天數收成並補種；
+  // 季末來不及再收的就改種 then 或空著。add 的第 4 個參數是當天播種格數
   function cropTasks(area, plot, day, add) {
-    const grow = data.crops[plot.crop].grow;
-    if (day === 1) {
-      add(area, `種植 ${plot.crop} ${plot.n} 格`);
+    const { grow, seed } = data.crops[plot.crop];
+    const start = plot.s || 1;
+    if (day === start) {
+      add(area, `種植 ${plot.crop} ${plot.n} 格`, seed, plot.n);
       return;
     }
     const harvests = [];
-    for (let h = 1 + grow; h <= daysInSeason; h += grow) harvests.push(h);
+    for (let h = start + grow; h <= daysInSeason; h += grow) harvests.push(h);
     const last = harvests[harvests.length - 1];
     const thenGrow = plot.then ? data.crops[plot.then].grow : 0;
 
     if (harvests.includes(day)) {
       if (day + grow <= daysInSeason) {
-        add(area, `收成並補種 ${plot.crop} ${plot.n} 格`, amount(plot.crop, plot.n));
+        add(
+          area,
+          `收成並補種 ${plot.crop} ${plot.n} 格`,
+          `${amount(plot.crop, plot.n)}；${seed}`,
+          plot.n
+        );
       } else if (plot.then && day + thenGrow <= daysInSeason) {
         add(
           area,
           `收成 ${plot.crop} ${plot.n} 格，改種${plot.then}`,
-          `${amount(plot.crop, plot.n)}；${plot.then}第 ${day + thenGrow} 天收`
+          `${amount(plot.crop, plot.n)}；${plot.then}第 ${day + thenGrow} 天收`,
+          plot.n
         );
       } else {
         add(
@@ -83,26 +91,40 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function tasksFor(s, day) {
     const tasks = [];
-    const add = (area, text, note) => tasks.push({ area, text, note });
+    const add = (area, text, note, sow = 0) => tasks.push({ area, text, note, sow });
     seasons[s].greenhouse.forEach((plot) => cropTasks("gh", plot, day, add));
     seasons[s].field.forEach((plot) => cropTasks("field", plot, day, add));
 
+    // 菇木不算進每天播種格數
     const m = data.mushroom;
     const perHarvest = `${m.logs * m.yield} 朵`;
-    if (day === 1) add("log", `種植 ${m.crop} ${m.logs} 個種菇木`);
-    else if ((day - 1) % m.grow === 0)
-      add(
-        "log",
-        day + m.grow <= daysInSeason ? `收成並補種 ${m.crop}` : `收成 ${m.crop}`,
-        perHarvest
-      );
+    if (day === 1) add("log", `種植 ${m.crop} ${m.logs} 個種菇木`, `每個種菇木用 ${m.seed} 顆種子`);
+    else if ((day - 1) % m.grow === 0) {
+      if (day + m.grow <= daysInSeason)
+        add("log", `收成並補種 ${m.crop}`, `${perHarvest}；留 ${m.logs * m.seed} 朵當種子`);
+      else add("log", `收成 ${m.crop}`, perHarvest);
+    }
     return tasks;
   }
 
   // 季節配置
   function showSummary(s) {
     const plan = seasons[s];
-    const list = (plots) => plots.map((p) => `${p.crop} ${p.n} 格`).join("、");
+    // 同作物的分組合併成一項，括號列出各組的開始日
+    const list = (plots) => {
+      const groups = new Map();
+      plots.forEach((p) => groups.set(p.crop, (groups.get(p.crop) || []).concat(p)));
+      return [...groups]
+        .map(([crop, ps]) => {
+          const total = ps.reduce((t, p) => t + p.n, 0);
+          const starts =
+            ps.length > 1
+              ? ps.map((p) => `${p.n} 格第 ${p.s || 1} 天`).join("，")
+              : `第 ${ps[0].s || 1} 天開始`;
+          return `${crop} ${total} 格（${starts}）`;
+        })
+        .join("、");
+    };
     document.getElementById("plan-summary").innerHTML = `
       <div class="plan-cards">
         <div class="cooking-card">
@@ -172,12 +194,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     container.innerHTML = "";
     for (let d = 1; d <= daysInSeason; d++) {
       const tasks = tasksFor(s, d);
+      const sow = tasks.reduce((t, task) => t + task.sow, 0);
       const card = document.createElement("div");
       card.className = "schedule-day" + (tasks.length ? "" : " quiet");
       card.id = `day-${d}`;
       card.innerHTML = `<div class="schedule-day-title"><b>第 ${d} 天</b><span>${
         seasons[s].name
-      }季・第 ${Math.ceil(d / 7)} 週</span></div>`;
+      }季・第 ${Math.ceil(d / 7)} 週${sow ? `・播種 ${sow} 格` : ""}</span></div>`;
       if (!tasks.length)
         card.insertAdjacentHTML("beforeend", `<div class="schedule-water">只要澆水 2 次</div>`);
 
@@ -282,11 +305,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         <h3>排程規則</h3>
         <ul>
           <li>第 N 天種下、第 N＋生長天數那天收成，收成當天立刻補種</li>
-          <li>同一種作物同一天一起種（從第 1 天開始），換季前剛好收完</li>
+          <li>同一種作物可分成幾組、錯開開始日，每天播種不超過 54 格（菇木不算）；開始日晚的組別可能少收一次</li>
           ${Object.entries(data.crops)
-            .map(([name, c]) => `<li>${name}：生長 ${c.grow} 天，每格收 ${c.yield}</li>`)
+            .map(
+              ([name, c]) =>
+                `<li>${name}：生長 ${c.grow} 天，每格收 ${c.yield}，${c.seed}</li>`
+            )
             .join("")}
-          <li>稻米第 25 天收完後，同一格春夏補種馬鈴薯、秋冬補種胡蘿蔔</li>
+          <li>稻米最後一次收成後，同一格春夏補種馬鈴薯、秋冬補種胡蘿蔔</li>
         </ul>
       </div>
     </div>
